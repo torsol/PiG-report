@@ -1,0 +1,61 @@
+\usepackage[utf8]{inputenc} % This defines the font-encoding you prefer to use
+\usepackage{fourier}
+\pagestyle{headings}
+\usepackage{marvosym}
+\usepackage[pdftex]{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[numbers]{natbib}
+%\usepackage[numbers]{natbib} % Use this command if you want to refer to the literature by numbers, e.g., [1]
+\usepackage[section]{placeins}
+\usepackage[british]{babel}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{sectsty}
+\usepackage[obeyFinal]{todonotes}
+\usepackage{standalone} % To import subdocuments
+\usepackage{import} % To import subdocuments
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\usepackage{wrapfig} % Allows in-line images
+\usepackage{gensymb} % symbols
+\usepackage{listings}
+\usepackage{subcaption} % to put figures side by side 
+
+\usepackage{setspace}
+\linespread{1.2} %Changed from 1.5
+\usepackage[parfill]{parskip}
+
+\usepackage[yyyymmdd]{datetime}
+\renewcommand{\dateseparator}{--}
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
+
+%%=========================================
+%			Remark environment
+%%=========================================
+\newenvironment{remark}{\par\mbox{}\par\noindent{\bfseries \emph{Remark}\/}:\normalfont}{\par}
+\newenvironment{defin}{\par\mbox{}\par\noindent\bfseries \emph{\Pointinghand\ }\normalfont}{\par}
+%%=========================================
+
+\setcounter{tocdepth}{2} 
+\usepackage[colorlinks=true, pdfstartview=FitV,
+linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\pdfcompresslevel=9
+
+%%=========================================
+%				Info boxes
+%%=========================================
+\usepackage{mdframed}
+\newtheorem{mdinfo}{Info}
+\usepackage{comment}
+\specialcomment{info}%
+  {\begin{mdframed}[backgroundcolor=Goldenrod]\begin{mdinfo}}%
+  {\end{mdinfo}\end{mdframed}}
+
+\usepackage{ifdraft}
+\ifdraft{}{\excludecomment{info}}
+%%=========================================

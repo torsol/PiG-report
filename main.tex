@@ -1,0 +1,72 @@
+\documentclass[12pt,twoside,openright,final]{report}
+\usepackage{style_and_pkg}
+% Option 'openright' forces chapters start on right hand side
+% 	when the report is printed as a book.
+% 	
+% Option 'draft' makes compilation time shorter and by
+% 	excluding images and hyperrefs etc.
+% 	It also enables info text in yellow boxes in the pdf.
+% 	Remove 'draft' to remove info text and compile correctly
+% 	Change it to 'final' to remove todos
+%%=========================================
+%				GRAPHICS
+%%-----------------------------------------
+% Figures in this path can be included 
+% using filename only, from any tex-file in the
+% project. You can add more folders as needed
+% but it is probably easiest to centralise them.
+\graphicspath{{Figures/}}
+%%=========================================
+\begin{document}
+%%=========================================
+%				PREAMBLE
+%%-----------------------------------------
+\subimport{Preamble/}{front.tex}
+\pagenumbering{Roman}
+\setcounter{page}{0}
+\subimport{Preamble/}{preface.tex}
+\subimport{Preamble/}{acknowledgement.tex}
+\subimport{Preamble/}{abstract.tex}
+%%=========================================
+\listoftodos % Is removed when 'final' is set
+\tableofcontents
+\setcounter{page}{0}
+\pagenumbering{arabic}
+%%=========================================
+%				CHAPTERS
+%%-----------------------------------------
+\subimport{Chapters/Introduction/}{introduction.tex}
+\subimport{Chapters/Theory/}{theory.tex}
+
+%-------Include chapters as required-------
+
+\ifdraft{
+	\subimport{Chapters/SampleChapter/}{sample_chapter.tex}
+}
+
+\subimport{Chapters/Conclusions/}{conclusions.tex}
+%%=========================================
+%				APPENDIX
+%%-----------------------------------------
+\appendix
+\subimport{Appendix/}{acronyms.tex}
+
+%------Include appendices as required------
+
+\ifdraft{
+	\subimport{Appendix/}{appendix-b.tex}
+}
+%%=========================================
+%				BIBLIOGRAPHY
+%%-----------------------------------------
+\bibliographystyle{agsm}
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliography{references_master.bib}
+\ifdraft{
+	\todo[inline]{Bibliography will not show in draft mode}
+}
+%%=========================================
+%\import{CV/}{vitae} % Your curriculum Vitae     
+%%-----------------------------------------
+
+\end{document}
