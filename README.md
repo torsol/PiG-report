@@ -42,14 +42,18 @@ LaTeXTools uses pre-releases to beta test new features and improve the stability
 * In Skim: go to Preferences->Sync and set ‘preset’ to SublimeText.
 
 ## Key-bindings 
-### Windows/Mac
-* Compile the PDF: `ctrl+B` / `cmd+B`
-* Manually Showing Completions (for image files, references etc): `ctrl+space`
-* Forward search: `ctrl+l, j` / `cmd+l, j`
+### Here `C`denotes `ctrl` for windows / `cmd` for mac
+* Compile the PDF: `C+b`
+* Forward search: `C+l, j`
 	* i.e. jump to the point in the PDF file where the cursor position is. 
-	* Let go of `ctrl/cmd` when pressing `j`
-* Backward search: `ctrl+shift+mouseclick` / `cmd+shift+mouseclick`
+	* hint: let go of `C` before pressing `j`
+* Backward search: `C+shift+mouseclick`
 	* i.e. jump to the point in the source code where click happens
+* Go to anything: `C+r`
+* Completions for ref/cite/figures: `C+l, x`
+	* hint: let go of `C` before pressing `x`
+* Other completions (for functions etc): `C+space`
+* New environment: `C+l, C+n`
 
 ## Report writing guidelines
 http://frigg.ivt.ntnu.no/ross/div/report.pdf
