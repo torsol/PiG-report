@@ -2,6 +2,8 @@
 
 This project is based on [this thesis template](https://www.ntnu.no/wiki/display/ross/LaTeX+Template+for+Project+and+Master+Theses).
 
+You can import this project directly into sharelatex.com if you want, but I would highly recommend to use Sublime Text.
+
 ## Requirements
 
 * [Sublime Text 3](https://www.sublimetext.com/3)
