@@ -43,6 +43,8 @@ LaTeXTools uses pre-releases to beta test new features and improve the stability
 * In Skim: go to Preferences->Sync and set ‘preset’ to SublimeText.
 
 ## Usage
+Open as a Sublime Project by opening the file `thesis.sublime-project`.
+
 By default, the document is in *draft* mode, which means info boxes with tips to writing will appear. This also makes compilation faster as it simplifies the document by not including figures, hyperrefs etc.
 **Turn draft mode off** by switching to _final_ within the documentclass at the very top of main.tex.
 
