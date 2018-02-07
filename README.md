@@ -8,6 +8,7 @@
 * [SyntaxFold](https://packagecontrol.io/packages/SyntaxFold#command-examples) Install with Package Control
 * [BufferScroll](https://github.com/titoBouzout/BufferScroll) Manually clone to Packages folder
 * [Mendeley](https://mendeley.com/) For BibTex management, create user and install desktop program + browser add-on
+* [Spell checking](https://github.com/titoBouzout/Dictionaries) Manual download
 
 ## Settings
 ### Insert this setting into Preferences > Package Settings > SyntaxFold > Settings - User:
@@ -41,19 +42,29 @@ LaTeXTools uses pre-releases to beta test new features and improve the stability
 * `sudo tlmgr install latexmk`
 * In Skim: go to Preferences->Sync and set ‘preset’ to SublimeText.
 
+## Usage
+By default, the document is in *draft* mode, which means info boxes with tips to writing will appear. This also makes compilation faster as it simplifies the document by not including figures, hyperrefs etc.
+**Turn draft mode off** by switching to _final_ within the documentclass at the very top of main.tex.
+
+Add new chapters and sections in new files as you like, and import them in the main.tex file. 
+
+Put all figures in the `Figures/` folder. Figures in this directory can be included from any tex-file in the project using file name only, e.g. `\includegraphics{logo_ntnu)`. You can then hover over the file name to get a preview of the image.
+
 ## Key-bindings 
 ### Here `C`denotes `ctrl` for windows / `cmd` for mac
-* Compile the PDF: `C+b`
-* Forward search: `C+l, j`
-	* i.e. jump to the point in the PDF file where the cursor position is. 
-	* hint: let go of `C` before pressing `j`
-* Backward search: `C+shift+mouseclick`
-	* i.e. jump to the point in the source code where click happens
-* Go to anything: `C+r`
-* Completions for ref/cite/figures: `C+l, x`
-	* hint: let go of `C` before pressing `x`
-* Other completions (for functions etc): `C+space`
-* New environment: `C+l, C+n`
+| Description 			|	Key-binding 	| Tip  |
+|----------------------	|---------------	|------|
+| **Compile the PDF**	|	`C+b`			| Choose _PdfLaTex_ if prompted     |
+| **New environment** 	|	`C+l, C+n`		| While holding `C`, press `l` then `n`|
+| **Bold text**			|	`C+l, C+b`		|      |
+| **Italic text**		|	`C+l, C+e`		|      |
+| **Forward search**	|	`C+l, j`		| Let go of `C` before pressing `j`.	<br> Jumps to the point in the _PDF_ <br> file where the cursor position <br> is in the source code. |
+| **Backward search** 	|	`C+shift+click`	| Jumps to the point in the <br> _tex-file_ corresponding <br> to the mouse click in the PDF|
+| **Go to anything**	|	`C+r`			| For fast navigation within a file|
+| **LaTex Completions**	|	`C+l, x`		| Let go of `C` before pressing `j`. <br> Gives suggestions within `\ref{}`, <br> `\cite{}` and `\figures{}`|
+| **Other completions**	|	`C+space`		| For functions etc|
+| **Fold info environments**|	`alt+0+0`	| Folds/hides all info environments <br> in the tex-file|
+| **Unfold info environments**|`alt+shift+0+0`| Opens all info environments <br> in the tex-file |
 
 ## Report writing guidelines
 http://frigg.ivt.ntnu.no/ross/div/report.pdf
