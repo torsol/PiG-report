@@ -27,4 +27,5 @@
 *.fdb_latexmk
 *.fls
 
-outfiles/
+thesis.sublime-workspace
+texoutput/
