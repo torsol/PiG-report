@@ -3,16 +3,33 @@
 \pagestyle{headings}
 \usepackage{marvosym}
 \usepackage[pdftex]{graphicx}
-\usepackage[margin=2.5cm]{geometry}
-\geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
+\usepackage[lmargin=25mm,rmargin=25mm,tmargin=27mm,bmargin=30mm]{geometry}
+\geometry{b5paper} % Set the page size to be b5 as opposed to the default US Letter
 \usepackage{rotating}
 \usepackage{amsmath}
 \usepackage{booktabs}
-\usepackage{url}
-\usepackage[numbers]{natbib}
-%\usepackage[numbers]{natbib} % Use this command if you want to refer to the literature by numbers, e.g., [1]
+\usepackage[hyphens]{url}
+% \usepackage[numbers]{natbib}
+\usepackage{csquotes}
+\usepackage[%
+  backend=bibtex      % biber or bibtex
+%,style=authoryear    % Alphabeticalsch
+ ,style=numeric-comp  % numerical-compressed
+ ,sorting=none        % no sorting
+ ,sortcites=true      % some other example options ...
+ ,block=none
+ ,indexing=false
+ ,bibencoding=ascii
+ ,citereset=none
+ ,isbn=true
+ ,url=true
+ ,doi=true            % prints doi
+ ,natbib=true         % if you need natbib functions
+]{biblatex}
+\addbibresource{references_master.bib}
+
 \usepackage[section]{placeins}
-\usepackage[british]{babel}
+\usepackage[norsk,british]{babel}
 
 \usepackage[dvipsnames]{xcolor}
 \usepackage{sectsty}
@@ -22,17 +39,57 @@
 \usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
 \usepackage{wrapfig} % Allows in-line images
 \usepackage{gensymb} % symbols
-\usepackage{listings}
+\usepackage{expl3,xparse}
+\usepackage[procnames]{listings}
+\usepackage{lstlinebgrd}
 \usepackage{subcaption} % to put figures side by side 
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage[title]{appendix}
+\usepackage{emptypage}
 
 \usepackage{setspace}
 \linespread{1.2} %Changed from 1.5
 \usepackage[parfill]{parskip}
 
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e} 
+
+\usepackage{etoolbox}
+
 \usepackage[yyyymmdd]{datetime}
 \renewcommand{\dateseparator}{--}
 \newdateformat{monthyeardate}{%
   \monthname[\THEMONTH], \THEYEAR}
+
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\mysecondparagraph}[1]{\textit{#1}\mbox{}\\}
+
+\renewcommand*{\lstlistingname}{List of Code}
+
+%%=========================================
+%     Sorted list
+%%=========================================
+
+\usepackage{datatool}% http://ctan.org/pkg/datatool
+\newcommand{\sortitem}[2][\relax]{%
+  \DTLnewrow{list}% Create a new entry
+  \ifx#1\relax
+    \DTLnewdbentry{list}{sortlabel}{#2}% Add entry sortlabel (no optional argument)
+  \else
+    \DTLnewdbentry{list}{sortlabel}{#1}% Add entry sortlabel (optional argument)
+  \fi%
+  \DTLnewdbentry{list}{description}{#2}% Add entry description
+}
+\newenvironment{sortedlist}{%
+  \DTLifdbexists{list}{\DTLcleardb{list}}{\DTLnewdb{list}}% Create new/discard old list
+}{%
+  \DTLsort{sortlabel}{list}% Sort list
+  \renewcommand\labelitemi{}
+  \begin{itemize}%
+    \DTLforeach*{list}{\theDesc=description}{%
+      \item \theDesc}% Print each item
+  \end{itemize}%
+}
 
 %%=========================================
 %			Remark environment
