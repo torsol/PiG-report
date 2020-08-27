@@ -27,5 +27,10 @@
 *.fdb_latexmk
 *.fls
 
+//added when running on vscode with Latex workshop
+*.cut
+main.run.xml
+
 thesis.sublime-workspace
+
 texoutput/
