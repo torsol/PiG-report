@@ -19,6 +19,28 @@
 	In this section, you should present the problem that you are going to investigate or analyse; why this problem is of interest; what has, so far, been done to solve the problem, and which parts of the problem that remain. Should include \textbf{Problem Formulation}, \textbf{Related Work}, \textbf{What Remains to be Done?}.
 \end{info}
 %%-----------------------------------------
+\begin{info}
+	What am I doing
+\end{info}
+In this paper, I will investigate available maritime navigational data in order to create a foundation for my future master thesis. The main task for my master thesis is to match AIS-data with ship detections done by VAKE's deep learning algorithm. In order to facilitate this I need an in-depth look at what data I have to work with and how I can utilize it in order to create a good model for AIS/Detection-matching.
+
+\begin{info}
+	Why is this interesting
+\end{info}
+
+While there exists many established ways of tracking ships at sea, all solutions depends on their technological limiations and the cooperation of the ships themselves.
+
+\begin{info}
+	What has, so far, been done to solve the problem
+\end{info}
+Identifying detections of boats on satelitte imagery to their respective AIS-signature is currently a part of the Vake pipeline. However, their method is a naive interpolation of the ships last known point before detection and first point after detection. For large time periods, this approach does not capture nearly as many ships as more advances trajectory modeling can do. That is atleast the assumption I am working on.
+
+\begin{info}
+	What remains?
+\end{info}
+There is a lot that remains, while AIS-predicition and forecasting is an increasingly researched topic, this particular case of trajectory reconstruction is not feasible yet.
+
+
 
 
 
@@ -31,11 +53,27 @@
 	All objectives shall be stated such that we, after having read the thesis, can see whether or not you have met the objective. ``To become familiar with \ldots'' is therefore not a suitable objective.
 \end{info}
 %%-----------------------------------------
+Objectives should be quantifiable and concise, a reader should know if I have succeeded with my objectives after reading my paper. Therefore, I will strive to formulate objectives in such a way. Also, they will express what I have to do, not how I do it. 
 
-
+In order to create the best foundation for my master thesis, I need an in-depth knowledge of the data sources I have available, what state-of-the-art research has been conducted on the domain, and what tools that will give me the best possibility to succeed with my work. I have therefore formulated the following goals for that:
 \begin{enumerate}
-	\item First objective
-	\item Second objective
+	\item Summarize what AIS data is
+	\item Summarize what AIS data is available for this project
+	\item Summarize what other data is available from Vake
+	\item Summarize what tools is available for big data analysis
+\end{enumerate}
+
+Next up is establishing knowledge of the state-of-the-art methods utilized to handle AIS-data and to use AIS-data in predictions
+\begin{enumerate}
+	\item Summarize preprocessing done on AIS-data and why it could be necessary
+	\item Summarize different models of predicitions on AIS-data
+\end{enumerate}
+
+Lastly, I will conduct preprocessing and feature engineering on the data in order to establish a framework to expand upon in the master thesis
+\begin{enumerate}
+	\item Explain why preprocessing could be helpful
+	\item Explain the process of feature engineering
+	\item List and show relevant feature extraction from the available AIS-data
 \end{enumerate}
 
 
@@ -83,7 +121,7 @@
 \begin{itemize}
 	\item Preface: Contains practical information about what you have done, and where the work has been carried out. Any assumed background of the reader should be specified here.
 	\item Acknowledgements: Here, you show the gratitude to who have been supporting your work, professionally and family as relevant.
-	\item Summary: Contains the management summary, and should be a layman's explanation of what you have done and why it is important. This would be the talk you could give if you in an  interview is asked about what you did in your thesis, or if some of your relatives ask the same question. This chapter should therefore include as few domain specific words as possible, so that no detailed background in the topic is required. 
+	\item Summary: Contains the management summary, and should be a layman's explanation of what you have done and why it is important. This would be the talk you could give if you in an  interview is asked about what you did in your thesis, or if some of your relatives ask the same question. This chapter should therefore include as few domain specific words as possible, so that no detailed background in the topic is required.
 	\item Chapter 1. Introduction: Structure already discussed in this chapter.
 	\item Chapter 2. Theoretical background: Here you identify and give the theoretical background needed in this report, with proper references to each literature reference used. The selection of what to include should be discussed and agreed with the supervisors. Theory may involve concepts, definitions, methods, regulations/key standards, theory to explain specific system behavior, and so on.
 	\item Chapter 3..N-2: The naming of the following chapters relies entirely on the specific topic in question. Proposed structure should be discussed with supervisor.

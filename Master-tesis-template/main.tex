@@ -1,0 +1,83 @@
+\documentclass[10pt,twoside,openright,final]{report}
+\usepackage{style_and_pkg}
+% Option 'openright' forces chapters start on right hand side
+% 	when the report is printed as a book.
+%
+% Option 'draft' makes compilation time shorter and by
+% 	excluding images and hyperrefs etc.
+% 	It also enables info text in yellow boxes in the pdf.
+% 	Remove 'draft' to remove info text and compile correctly
+% 	Change it to 'final' to remove todos
+%%=========================================
+%				GRAPHICS
+%%-----------------------------------------
+% Figures in this path can be included
+% using filename only, from any tex-file in the
+% project. You can add more folders as needed
+% but it is probably easiest to centralise them.
+\graphicspath{{Figures/}}
+%%=========================================
+\begin{document}
+%%=========================================
+%				PREAMBLE
+%%-----------------------------------------
+% \subimport{Preamble/}{front.tex}
+\raggedbottom
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\subimport{Preamble/}{abstract.tex}
+\subimport{Preamble/}{sammendrag.tex}
+\subimport{Preamble/}{preface.tex}
+% \subimport{Preamble/}{acknowledgement.tex}
+%%=========================================
+%			  Tables/Lists
+%%-----------------------------------------
+\listoftodos % Is removed when 'final' is set
+{\hypersetup{linkcolor=black}
+	\tableofcontents
+	\begingroup
+		\let\clearpage\relax
+		\makeatletter
+		\@openrightfalse
+		\makeatother
+		\listoffigures
+		\addcontentsline{toc}{section}{\listfigurename}
+		\listoftables
+		\addcontentsline{toc}{section}{\listtablename}
+		\listofalgorithms
+		\addcontentsline{toc}{section}{List of Algorithms}
+		\lstlistoflistings
+		\addcontentsline{toc}{section}{List of Code}
+		\newpage
+		\subimport{Preamble/}{acronyms.tex}
+	\endgroup
+}
+%%=========================================
+%				CHAPTERS
+%%-----------------------------------------
+\clearpage
+\cleardoublepage
+\setcounter{page}{0}
+\pagenumbering{arabic}
+\subimport{Chapters/Introduction/}{introduction.tex}
+\subimport{Chapters/Theory/}{theory.tex}
+\subimport{Chapters/BasisAndDiscoveries/}{basis.tex}
+\subimport{Chapters/Analysis/}{analysis.tex}
+\subimport{Chapters/Conclusions/}{conclusions.tex}
+%-------Include chapters as required-------
+%\subimport{Chapters/SampleChapter/}{sample_chapter.tex}
+%%=========================================
+%				BIBLIOGRAPHY
+%%-----------------------------------------
+%\bibliographystyle{agsm}
+% \bibliographystyle{unsrtnat}
+\addcontentsline{toc}{chapter}{\bibname}
+\printbibliography
+%%=========================================
+%				APPENDIX
+%%-----------------------------------------
+\appendix
+%------Include appendices as required------
+\subimport{Appendix/}{appendix-a.tex}
+\subimport{Appendix/}{appendix-b.tex}
+\end{document}%

@@ -1,4 +1,4 @@
-\documentclass[12pt,twoside,openright,draft]{report}
+\documentclass[10pt,twoside,openright, final]{report}
 \usepackage{style_and_pkg}
 % Option 'openright' forces chapters start on right hand side
 % 	when the report is printed as a book.
@@ -24,9 +24,9 @@
 \subimport{Preamble/}{front.tex}
 \pagenumbering{Roman}
 \setcounter{page}{0}
-\subimport{Preamble/}{preface.tex}
-\subimport{Preamble/}{acknowledgement.tex}
-\subimport{Preamble/}{abstract.tex}
+% \subimport{Preamble/}{preface.tex} % Removed for Specialization Project
+% \subimport{Preamble/}{acknowledgement.tex} % Removed for Specialization Project
+% \subimport{Preamble/}{abstract.tex} % Removed for Specialization Project
 %%=========================================
 \listoftodos % Is removed when 'final' is set
 \tableofcontents
@@ -37,6 +37,7 @@
 %%-----------------------------------------
 \subimport{Chapters/Introduction/}{introduction.tex}
 \subimport{Chapters/Theory/}{theory.tex}
+\subimport{Chapters/DataPreproccessing/}{chapter_template.tex}
 
 %-------Include chapters as required-------
 
