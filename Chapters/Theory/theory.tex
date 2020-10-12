@@ -11,7 +11,7 @@ The last part of the theoretical background will contain some state-of-the-art m
 %%-----------------------------------------
 \section{Automatic Identification System (AIS)}
 \begin{info}{}
-	This is a simple section saved in a separate file.
+	
 \end{info}
 %%-----------------------------------------
 AIS is a large integrated system that combines equipment and protocols to send, recieve and decode navigational information from ships at sea. There are landmounted receivers, satelitte receivers and ship-mounted transcievers that constantly sends, receives and utilizes this information to improve maritime security and enhance monitoring, among other things.
@@ -19,9 +19,9 @@ AIS is a large integrated system that combines equipment and protocols to send, 
 According to the International Maritime Organization (IMO) \cite{MarineSafteyComittee}, the transcievers mounted on the individual ships must provide identity, ship-type, position, course, speed, and other safety-related information. 
 The requlation enforced by IMO in 2002 also states that all ships of 300 gross tonnage or above engaging on international voyages, as well as all cargo ships above 500 gross tonnage and all passenger ships must be equipped with such technology. 
 
-The global adaption of this technology has lead to an incredible amount of data with a large number of use-cases not imagined when IMO first enforced the system.  
+The global adaption of AIS has lead to an incredible amount of data with a large number of use-cases not imagined when IMO first enforced the system.   
 
-\todo[inline]{List use cases for AIS, mabye find the source where IMO regretted public AIS-data}
+\todo[inline]{List use cases for AIS. mabye find the source where IMO regretted public AIS-data}
 
 
 \todo[inline]{Sub-chapters: How AIS works}
@@ -31,24 +31,37 @@ The global adaption of this technology has lead to an incredible amount of data 
 
 %%=========================================
 
-\section{Data Management}
+%------------------------------------------
+\section{Sentinel-2 mission}
+\begin{info}{}
+	A quick introduction to what Sentinel-2 data is. 
+	I need to talk about the postprocessing that leads to MGRS-tiles.  
+\end{info}
+%%-----------------------------------------
+The Copernicus Sentinel-2 mission is a constellation of two orbiting satellites, aiming to monitor variability in land surface conditions. \cite{EuropeanSpaceAgency}
+The satellites achieve this by global acquisitions of high-resolution multispectral images with a high revisit frequency.
+
+To create these images, the satelittes has an onboard Multi-Spectral Instrument (MSI) that creates images with 13 spectral bands. To capture these images, the sensor uses a push-broom technique that takes in rows of data. Such a datatake is then further processed and made publicily available for download. 
+
+One of the products that is available for download is called Level-1C. The raw data undergoes many steps before becoming Level-1C, with compression and refinement of the physical geometric model using ground control points being major steps of interest. lastly, the data is orthorectified and cut into tiles. These tiles are of 100km x 100km in the UTM/WGS84 projection.
+
+\section{Military Grid Reference System}
+\begin{info}{}
+
+\end{info}
+%%-----------------------------------------
+
+One of the findings in \cite{Tofting2018} is that the tiles from the Sentinel-2 Level-1C product corresponds to the Military Grid Reference System (MGRS). The MGRS is used by NATO, being derived from the Universal Polar Stereographic(UPS)- and the Universal Transverse Mercator (UTM)-projections. This system does not define points, but rather an area on a map. 
+
+In MGRS, the world is divided into 6 by 8 degrees geographic areas, each is given an unique identifier called the Grid Zone Designation (GZD). \cite{NationalGeospatial-IntelligenceAgency2014} The GZD is an alphanumeric code starting with the zone number from either UTM (80° south to 84° north) or UPS. The next element is a letter that defines the lattitude bond. Beginning at 80° south and proceeding northward, twenty bands are lettered C through X, omitting I and O. The bands are 8 degrees wide. Within each o f the GZD's, these large tiles are divided into a grid consisting of smaller 100km x 100km tiles. These tiles are indexed by two more letters, indicating the specific row and column within the GZD. It is these smaller tiles within the GZD's that corresponds with the Level-1C products. This creates consistent zones for the images produced by the satellites.
+
+
+
+\section{AIS Data Management}
 \begin{info}{}
 	This is a simple section saved in a separate file.
 \end{info}
 %%-----------------------------------------
-
-
-
-%%=========================================
-\section{Sentinel-2 Images}
-\begin{info}{}
-	This is a simple section saved in a separate file.
-\end{info}
-%%-----------------------------------------
-
-
-
-%%=========================================
 
 \section{Vake and Vake's pipeline}
 \begin{info}{}
