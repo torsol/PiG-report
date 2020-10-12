@@ -4,18 +4,29 @@
 \begin{info}
 	Within this 'info' environment you can write stuff you don't want to be included in the final version of the report
 \end{info}
-%%-----------------------------------------
 
+In the theoretical background, I will start by introducing the different datasources that serves as input to Vake's pipline. A big part of this project is to understand the data, in order to know what to do with it later on.
+Next up, I will explain how Vake uses this data to create a pipeline for ship detection. This will be useful for understanding how to scope my project later on. 
+The last part of the theoretical background will contain some state-of-the-art modelling of AIS-predictions and reconstruction. This will help me to understand where the technology is today, and how I can apply general solutions to my specific challenge. 
+%%-----------------------------------------
 \section{Automatic Identification System (AIS)}
 \begin{info}{}
 	This is a simple section saved in a separate file.
 \end{info}
 %%-----------------------------------------
-According to the International Maritime Organization (IMO), an automatic Identification system (AIS) must be able to provide information about the ship and broadcast it to other ships and coastal authorities. In 2000, IMO adapted a new regulation, requiring that AIS must provide information, including identity, type, position, course, speed, and other safety related information. Transcievers must be able to both send out and receive such signals from other ships.  The requlation also stated that all ships of 300 gross tonnage or above engaging on international voyages, as well as all cargo ships above 500 gross tonnage and all passanger ships must be equipped with such technology. 
+AIS is a large integrated system that combines equipment and protocols to send, recieve and decode navigational information from ships at sea. There are landmounted receivers, satelitte receivers and ship-mounted transcievers that constantly sends, receives and utilizes this information to improve maritime security and enhance monitoring, among other things.
 
-\todo[inline] {Citation needed for AIS-definition}
+According to the International Maritime Organization (IMO) \cite{MarineSafteyComittee}, the transcievers mounted on the individual ships must provide identity, ship-type, position, course, speed, and other safety-related information. 
+The requlation enforced by IMO in 2002 also states that all ships of 300 gross tonnage or above engaging on international voyages, as well as all cargo ships above 500 gross tonnage and all passenger ships must be equipped with such technology. 
 
-AIS works by having a 
+The global adaption of this technology has lead to an incredible amount of data with a large number of use-cases not imagined when IMO first enforced the system.  
+
+\todo[inline]{List use cases for AIS, mabye find the source where IMO regretted public AIS-data}
+
+
+\todo[inline]{Sub-chapters: How AIS works}
+\todo[inline]{Sub-chapters: Protocol}
+\todo[inline]{Sub-chapters: Weaknesses}
 
 
 %%=========================================
