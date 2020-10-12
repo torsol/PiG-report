@@ -29,6 +29,7 @@
 
 //added when running on vscode with Latex workshop
 *.cut
+*.bcf
 main.run.xml
 
 thesis.sublime-workspace
