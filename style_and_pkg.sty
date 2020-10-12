@@ -1,3 +1,4 @@
+\usepackage{sectsty}
 \usepackage[utf8]{inputenc} % This defines the font-encoding you prefer to use
 \usepackage{fourier}
 \pagestyle{headings}
@@ -12,7 +13,7 @@
 % \usepackage[numbers]{natbib}
 \usepackage{csquotes}
 \usepackage[%
-  backend=bibtex      % biber or bibtex
+  backend=biber      % biber or bibtex
 %,style=authoryear    % Alphabeticalsch
  ,style=numeric-comp  % numerical-compressed
  ,sorting=none        % no sorting
@@ -26,13 +27,12 @@
  ,doi=true            % prints doi
  ,natbib=true         % if you need natbib functions
 ]{biblatex}
-\addbibresource{references_master.bib}
+\addbibresource{master_references.bib}
 
 \usepackage[section]{placeins}
 \usepackage[norsk,british]{babel}
 
 \usepackage[dvipsnames]{xcolor}
-\usepackage{sectsty}
 \usepackage[obeyFinal]{todonotes}
 \usepackage{standalone} % To import subdocuments
 \usepackage{import} % To import subdocuments
