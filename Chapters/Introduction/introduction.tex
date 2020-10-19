@@ -28,7 +28,7 @@ While there exists many established ways of tracking ships at sea, all solutions
 \begin{info}
 	What has, so far, been done to solve the problem
 \end{info}
-Identifying detections of boats on satelitte imagery to their respective AIS-signature is currently a part of the Vake pipeline. However, their method is a naive interpolation of the ships last known point before detection and first point after detection. For large time periods, this approach does not capture nearly as many ships as more advances trajectory modeling can do. That is atleast the assumption I am working on.
+Identifying detections of boats on satelitte imagery to their respective AIS-signature is currently a part of the Vake pipeline. However, their method is a naive interpolation of the ships last known point before detection and first point after detection. For large time periods and/or advanced ship motion, this approach does not capture nearly as many ships as more advances trajectory modeling hopefully can do.
 
 \begin{info}
 	What remains?
@@ -93,10 +93,12 @@ Lastly, I will conduct preprocessing and feature engineering on the data in orde
 	Here you give a list of your main contributions in the project or master work.
 \end{info}
 %%-----------------------------------------
-- New way of processing and storing AIS-data
-
-- New recipies for feature extraction
-
+\begin{enumerate}
+	\item A short analysis of the weaknesses of the current implementation
+	\item A benchmarking of the current AIS-matching
+	\item New pipeline for processing AIS-data for future predictions
+	\item New recipies for feature extraction of AIS messages
+\end{enumerate}
 
 %%=========================================
 \section{Limitations}

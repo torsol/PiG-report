@@ -9,19 +9,23 @@ The amount of AIS data available for analysis is simply too dense and large to m
 
 
 \section{Selection of Area}
-\begin{info}{}
-	This is a simple section saved in a separate file.
-\end{info}
 %%-----------------------------------------
-The selection of area 
-\todo[]{sdfsdf}
+There are a lot of questions surrounding the selection of area. The area has to  be large enough to include enough AIS-data for meaningful analysis. Also, it can't be too large because the querying time will be too large for this exploratory part of the project. 
 
-The previously mentioned MGRS-tiles that matches with the image products from the Sentinel-2 Mission drives the selection of area of study for this specialization project. The overlap could power region-based predictions as the areas themselves remains stationary and consistent over each retake of images.  
+With spatial properties being a characteristic of AIS-data, some meaning could be extracted from the relations between points, both on an ellipsoid, but also on a projected plane. Therefore, we need to find a sensible area that that powers a simple and accurate projection. 
+\todo[]{Get a reference from Vakes MGRS-density grid.}
 
+The spatial properties of the VAKE-detections are detections divided using their respective MGRS-tiles. Therefore, for our selection of area, we need to fuse the overlapping MGRS-tiles for our selected area to get all the detections in that area. This is not a trivial task, as the tiles have overlap, and therefore multiple detections of the same ships in them. 
 
+With this in mind, we need an area with a simple and accurate projection, and a way of relating it to the products of the VAKE-pipeline, which is given in overlapping MGRS-tiles. If we simply choose our area of interest to be such an MGRS-tile we acheive the first goal, and the second goal becomes trivial in execution, as there would be no overlap. 
 
+We have acheived the property of an easy an intuitive projection, as the UTM-projection matches the MGRS-tiles. For the relatively small MGRS-tiles for 100km x 100km, the distrortions of the area (because UTM is a conformal projection) will hopefully prove negligible. What remains is to choose which MGRS-tile we will go for. 
 
-%%=========================================
+In \cite{Tofting2018} they introduce what they call is a "ship likelihood constant" over all MGRS-tiles based on 20 days of global AIS-data. Based on their data, it can be confirmed that the norwegian coastline has a high density of registered AIS-messages. This empowers the assumption that our coastline has excellent AIS-coverage. Their density map can be explored at \cite{Tofting}
+
+ \todo{Why that exact tile? Combination of land and water, can potentionally utilize more features}
+\todo{The check that our assumptions is correct}
+
 
 
 \section{Downsampling}
