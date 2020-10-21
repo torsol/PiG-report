@@ -75,7 +75,7 @@ Vake has implemented a fuser that uses different methods for predicting the posi
 	\item The fuser takes in the finished products with image detections from the detection model. These products are on a tabular format, and the two values used in the fuser is the sensing time and image footprint. 
 	\item The next step is to extract all AIS data within the image timestamp. In order to lower the amount of data, the algorithm takes a threshold value. 
 	\item Further filtering the data, all AIS messages outside the image footprint is discarded. Also here we use a buffer, the default is 5000 meters. This is to include those ships that are just leaving or just entering the footprint. 
-	\item Using the aqcuired AIS-messages, the last prior and the first posterior is selected, based on the product timestamp. 
+	\item Using the aqcuired AIS-messages, the last prior message and the first posterior message with regards to the product timestamp is selected. 
 	\item Next, interpolation parameters are generated, taking into consideration the different edge cases that can cause problems. When the time difference between the signals are 0, the interpolated speed is set to 0.
 	
 	If the speeds reported in the AIS messages are invalid, the interpolated speed is calculated using the mean speed between the points. $d_x/d_t$ Otherwise it is calculated by $speed_{interpolated} = speed_{prior}*0.514444444 + d_v/d_t * d_{ti}$
@@ -100,13 +100,17 @@ Vake has implemented a fuser that uses different methods for predicting the posi
 
 \subsection{Fuser weaknesses}
 %%-----------------------------------------
+
+The existing fuser is the model that I will try to beat for my master thesis, therefore, identifiying crucial weaknesses is important.  
+
 \begin{enumerate}
 	\item Not a probabilistic model, it either gives a binary match, or no match at all. There is no quantified figure for how accurate or how sure the interpolator thinks it is. 
 	\item The fuser only considers the prior and posterior signal with regards to the sensing time, this excludes a lot of data which could have been used to better understand the ship-movement. 
+	\item If the algorithm fails to find a prior or posterior signal it simply terminates without finding a suggested path. 
 	\item It is very sensitive to signal blackout and poorer resolution which leads to larger gaps in the data coverage. The assumption that simple interpolation works is weakened when the ships travel over large distances without reporting their position. 
 	\item The interpolation/extrapolation is a linear model, unable to handle the natural curvilinear motion of ships. The theory is that it is not expressive enough to capture all ship-behaviour. 
-	\item The thresholds for the decision tree is created through trial and error and is not tested for efficiency or accuracy.
-	\item The model for interpolating does not take into account the actual detections, it only tries to match after the interpolation is done. This is and an important datasource to optimize for. 
+	\item The thresholds for the decision tree is created through trial and error and is not tested for efficiency nor accuracy.
+	\item The model for interpolating does not take into account the actual detections, it only tries to match after the interpolation is done. This is an important datasource to optimize for. 
 \end{enumerate}	
 
 

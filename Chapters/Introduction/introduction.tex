@@ -5,7 +5,7 @@
 	The first chapter of a well-structured thesis is always an introduction, setting the scene with background, problem description, objectives, limitations, and then looking ahead to summarize what is in the rest of the report. This is the part that readers look at first---\emph{so make sure it hooks them!} Problem formulation, Related work, What remains to be done
 \end{info}
 %%-----------------------------------------
-
+The first chapter will give an introduction to the problem and the motivation behind endavouring on the given task. Next, I will summarize the main objectives for the project, the approach for acheiving these. Finally the chapter will include a brief summary of the limitations for the project and the outline for the following chapters. 
 
 %%=========================================
 \section{Background}
@@ -14,26 +14,29 @@
 	In this section, you should present the problem that you are going to investigate or analyse; why this problem is of interest; what has, so far, been done to solve the problem, and which parts of the problem that remain. Should include \textbf{Problem Formulation}, \textbf{Related Work}, \textbf{What Remains to be Done?}.
 \end{info}
 %%-----------------------------------------
+
+Every year, the different course coordinators at Engineering \& ICT holds a presentation in order to motivate the lower grade students to choose their specialization. As a part of the geomatics presentation in the spring of 2018, I clearly remember Adrian Tofting and Lars-Henrik Berg-Jensen pitching their master thesis work. They were a part of opening my eyes to geomatics, and to realise the possibilites of combining it with cutting-edge computer science. Their master thesis consisted of automatic labeling of ships on satelitte images, creating a dataset for powering automatic ship detection using machine learning. Since then, they have used their master thesis as a springboard for founding the startup VAKE, with a mission of acheiving global real-time detection of vessels. 
+
 \begin{info}
 	What am I doing
 \end{info}
-In this paper, I will investigate available maritime navigational data in order to create a foundation for my future master thesis. The main task for my master thesis is to match AIS-data with ship detections done by VAKE's deep learning algorithm. In order to facilitate this I need an in-depth look at what data I have to work with and how I can utilize it in order to create a good model for AIS/Detection-matching.
+
+I am honored to be able to work with VAKE, and to do my best efforts to do a meaningful contribution to their mission. In this paper, I will conduct exploratory work on a particular part of their pipeline, namely the part that handles the matching of detections with the identity of the ship. The ambition for the following master thesis is to use this work for creating an improved model to increase matching accuracy. 
 
 \begin{info}
-	Why is this interesting
+	Why is this interesting (Motivation)
 \end{info}
-
-While there exists many established ways of tracking ships at sea, all solutions depends on their technological limiations and the cooperation of the ships themselves.
+In general, increased maritime surveillance is benificial for both the private and public sectors on a national and global scale. With the ability to monitor all ships independent of the navigational equipment onboard the authorities can register and respond to a multitude of challenges at sea. This includes, but is not limited to, the tampering of navigational equipment, illegal fishing, monitoring of foreign military activity, illegal transportation of goods, illegal transhipment of cargo at sea, aiding in the tracking of ships lost at sea and the detection of abnormal traffic and deviance from the norm. If illegal activity is deterred, and search- and rescue-missions are aided, this will lead to a safer and fairer sea space for all. Detection of ships on satelitte images has been acheived, but the detections themselves offers low value if they can't be put in context of the actual ship identities. By improving the matching, tying the detections to the identification of the ships, this will create actionable data for the affected authorities.     
 
 \begin{info}
 	What has, so far, been done to solve the problem
 \end{info}
-Identifying detections of boats on satelitte imagery to their respective AIS-signature is currently a part of the Vake pipeline. However, their method is a naive interpolation of the ships last known point before detection and first point after detection. For large time periods and/or advanced ship motion, this approach does not capture nearly as many ships as more advances trajectory modeling hopefully can do.
+VAKE already has implemented a method for matching their detections to the ship identity by using data from the Automatic Identifiaction System (AIS). By interpolating between the last known position before the image and the first known position after the image, they employ a linear interpolation to estimate the ship position at the time of the image. However, this method has flaws, and can't account for large time periods and/or advanced ship motion. This approach does not capture nearly as many ships as more advances trajectory modeling hopefully can do.
 
 \begin{info}
 	What remains?
 \end{info}
-There is a lot that remains, eventhough AIS-predicition and forecasting is an increasingly researched topic. This particular case of trajectory reconstruction is not feasible yet.
+There is a lot that remains before a new matching model can be developed and tested. We need to gain insight in what kind of data is available to aid the matching, what state-of-the-art models exists, and we need to get an overview of exisiting research on the topic. 
 
 
 
@@ -48,8 +51,6 @@ There is a lot that remains, eventhough AIS-predicition and forecasting is an in
 	All objectives shall be stated such that we, after having read the thesis, can see whether or not you have met the objective. ``To become familiar with \ldots'' is therefore not a suitable objective.
 \end{info}
 %%-----------------------------------------
-Objectives should be quantifiable and concise, a reader should know if I have succeeded with my objectives after reading my paper. Therefore, I will strive to formulate objectives in such a way. Also, they will express what I have to do, not how I do it. 
-
 In order to create the best foundation for my master thesis, I need an in-depth knowledge of the data sources I have available, what state-of-the-art research has been conducted on the domain, and what tools that will give me the best possibility to succeed with my work. I have therefore formulated the following goals aiming to achieve this:
 \begin{enumerate}
 	\item Summarize what AIS data is
