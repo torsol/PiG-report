@@ -6,28 +6,63 @@
 
 In this section, I will be explaining what feature engineering is, give my motivation for doing feature engineering and my methodology for creating said features. 
 %%-----------------------------------------
-\section{What is feature engineering}
-\begin{info}{}
-	Tilhører kanskje teoridelen, men det kan jeg fikse senere. 
-\end{info}
 
 Features are individual and measurable properties of a characteristic being observed. Choosing and generating good features are an important part of machine learning. These are datadriven methods where the significance and quality of the training data is crucial for the success of the classification or regression problems these models usually are applied. 
 
 Feature engineering is the dicipline of creating new features, based on already existing data or external sources. 
-
 %%-----------------------------------------
-\section{Why is feature engineering important?}
+\section{Static Ship Characteristics}
 \begin{info}{}
 \end{info}
 
-%%-----------------------------------------
-\section{Static Ship Characteristic Features}
-\begin{info}{}
-\end{info}
+The static ship characteristics are invariant to time and position, and will give information about general behaviour on a ship-by-ship basis. With these features, I aim to group ships with similiar static features, hoping that similar ships will have similar behaviour that the algorithm can learn. As we already have seen, the AIS-data provides some static features like crew size, breadth, width and engine power.
 
-- Likelihood of porting in tile
+\subsection{Max Speed}
+Max speed is a numerical feature representing the highest recorded speed of a single ship within our AIS-data. This feature offers value by providing a physical limit to how far a particular ship can go within a given timeframe. This will reduce the opportunity space for our predictions.
+
+Given a set of AIS-messages, $M$, where all messages belong to one particular ship, we get the following formal definition of max speed.
+
+$$
+\mathrm{speed}_{max} = \max_{m \in M}\;\:{m.\mathrm{speed}}
+$$
+
+\subsection{Max Rate of Turn}
+Max rate of turn works in a similar fashion as max speed. By recording the fastest rate of change in course for a ship, we define an imperical physical limit of how fast a ship can alter course. This will also reduce the opportunity space, as the turning capacity limits the general manouverability of the ship. 
+$$
+\mathrm{rate\_of\_turn}_{max} = \max_{m \in M}\;\:{m.\mathrm{rate\_of\_turn}}
+$$
+
+\subsection{Max Acceleration}
+Max acceleration is a measure of the fastest positive acceleration observed between two points for a ship. Alongside the rate of turn and max speed, this will also limit the opportunity space for the ship position. It constraints the ability for a ship to change it's speed, and therefore the reach of the ship within a given timeframe. 
+
+Acceleration has to be derived, by observerving the difference in speed between subsequent AIS-messages. The acceleration between each AIS-message is calculated using the following kinematic equation:
+
+$$
+	\forall m \in M | m.\mathrm{acceleration} = \dfrac{m.speed - m.prior\_speed }{m.timestamp - m.prior\_timestamp}
+$$
+
+$$
+\mathrm{acceleration}_{max} = \max_{m \in M}\;\:{m.\mathrm{acceleration}}
+$$
 
 
+\subsection{Max Retardation}
+Max retardation is a measure of how quick a ship can slow down. While the other static features discussed gives an upper limit to how for a ship can travel, the maximum retardation gives a lower limit of how far a ship can travel. When the engine of a ship stops, the inertia of the body in water will keep the ship drifting forward. The distance it takes to come to a complete stop is called the stopping distance. Max Retardation is the closest we can come to stopping distance, as the stopping distance charts for ships are not publicly available.
+
+$$
+\mathrm{retardation}_{max} = - \min_{m \in M}\;\:{m.\mathrm{acceleration}}
+$$
+
+\subsection{Mean Speed}
+Mean speed gives an inidcation of the expected speed under normal operation. Ships usually don't travel at max speed for a number of reasons, that being safety, regulations, fuel economy and porting to name a few. Mean speed is calculated using the subset of messages where speed is greater than zero, as the messages when the ship is moored or ancored would skew the measurement disproportionally. The arithmetic mean is calculated using the following formula where $n$ = total amount of messages pr ship. 
+
+$$
+\mathrm{speed}_{mean} = \dfrac{1}{n}\sum_{i=0}^{n}{m_i.speed}
+$$
+
+\subsection{std Speed}
+\subsection{std Rate of Turn}
+\subsection{std Acceleration}
 %%-----------------------------------------
 
 
