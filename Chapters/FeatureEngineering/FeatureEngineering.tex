@@ -4,12 +4,12 @@
 	% Within this 'info' environment you can write stuff you don't want to be included in the final version of the report
 \end{info}
 
-In this section, I will be explaining what feature engineering is, give my motivation for doing feature engineering and my methodology for creating said features. 
+In this section, I will be explaining what feature engineering is, give my motivation for doing feature engineering and my methodology for creating said features.
 %%-----------------------------------------
 
-Features are individual and measurable properties of a characteristic being observed. Choosing and generating good features are an important part of machine learning. These are datadriven methods where the significance and quality of the training data is crucial for the success of the classification or regression problems these models usually are applied. 
+Features are individual and measurable properties of a characteristic being observed. Choosing and generating good features are an important part of machine learning. These are datadriven methods where the significance and quality of the training data is crucial for the success of the classification or regression problems these models usually are applied.
 
-Feature engineering is the dicipline of creating new features, based on already existing data or external sources. 
+Feature engineering is the dicipline of creating new features, based on already existing data or external sources.
 %%-----------------------------------------
 \section{Static Ship Characteristics}
 \begin{info}{}
@@ -23,17 +23,17 @@ Max speed is a numerical feature representing the highest recorded speed of a si
 Given a set of AIS-messages, $M$, where all messages belong to one particular ship, we get the following formal definition of max speed.
 
 $$
-\mathrm{speed}_{max} = \max_{m \in M}\;\:{m.\mathrm{speed}}
+	\mathrm{speed}_{max} = \max_{m \in M}\;\:{m.\mathrm{speed}}
 $$
 
 \subsection{Max Rate of Turn}
-Max rate of turn works in a similar fashion as max speed. By recording the fastest rate of change in course for a ship, we define an imperical physical limit of how fast a ship can alter course. This will also reduce the opportunity space, as the turning capacity limits the general manouverability of the ship. 
+Max rate of turn works in a similar fashion as max speed. By recording the fastest rate of change in course for a ship, we define an imperical physical limit of how fast a ship can alter course. This will also reduce the opportunity space, as the turning capacity limits the general manouverability of the ship.
 $$
-\mathrm{rate\_of\_turn}_{max} = \max_{m \in M}\;\:{m.\mathrm{rate\_of\_turn}}
+	\mathrm{rate\_of\_turn}_{max} = \max_{m \in M}\;\:{m.\mathrm{rate\_of\_turn}}
 $$
 
 \subsection{Max Acceleration}
-Max acceleration is a measure of the fastest positive acceleration observed between two points for a ship. Alongside the rate of turn and max speed, this will also limit the opportunity space for the ship position. It constraints the ability for a ship to change it's speed, and therefore the reach of the ship within a given timeframe. 
+Max acceleration is a measure of the fastest positive acceleration observed between two points for a ship. Alongside the rate of turn and max speed, this will also limit the opportunity space for the ship position. It constraints the ability for a ship to change it's speed, and therefore the reach of the ship within a given timeframe.
 
 Acceleration has to be derived, by observerving the difference in speed between subsequent AIS-messages. The acceleration between each AIS-message is calculated using the following kinematic equation:
 
@@ -42,7 +42,7 @@ $$
 $$
 
 $$
-\mathrm{acceleration}_{max} = \max_{m \in M}\;\:{m.\mathrm{acceleration}}
+	\mathrm{acceleration}_{max} = \max_{m \in M}\;\:{m.\mathrm{acceleration}}
 $$
 
 
@@ -50,47 +50,134 @@ $$
 Max retardation is a measure of how quick a ship can slow down. While the other static features discussed gives an upper limit to how for a ship can travel, the maximum retardation gives a lower limit of how far a ship can travel. When the engine of a ship stops, the inertia of the body in water will keep the ship drifting forward. The distance it takes to come to a complete stop is called the stopping distance. Max Retardation is the closest we can come to stopping distance, as the stopping distance charts for ships are not publicly available.
 
 $$
-\mathrm{retardation}_{max} = - \min_{m \in M}\;\:{m.\mathrm{acceleration}}
+	\mathrm{retardation}_{max} = - \min_{m \in M}\;\:{m.\mathrm{acceleration}}
 $$
 
 \subsection{Mean Speed}
-Mean speed gives an inidcation of the expected speed under normal operation. Ships usually don't travel at max speed for a number of reasons, that being safety, regulations, fuel economy and porting to name a few. Mean speed is calculated using the subset of messages where speed is greater than zero, as the messages when the ship is moored or ancored would skew the measurement disproportionally. The arithmetic mean is calculated using the following formula where $n$ = total amount of messages pr ship. 
+Mean speed gives an inidcation of the expected speed under normal operation. Ships usually don't travel at max speed for a number of reasons, that being safety, regulations, fuel economy and porting to name a few. Mean speed is calculated using the subset of messages where speed is greater than zero, as the messages when the ship is moored or ancored would skew the measurement disproportionally. The arithmetic mean is calculated using the following formula where $n$ = total amount of messages pr ship.
 
 $$
-\mathrm{speed}_{mean} = \dfrac{1}{n}\sum_{i=0}^{n}{m_i.speed}
+	\mathrm{speed}_{mean} = \dfrac{1}{n}\sum_{i=0}^{n}{m_i.speed}
 $$
 
-\subsection{std Speed}
-\subsection{std Rate of Turn}
-\subsection{std Acceleration}
-\subsection{Ship Entropy}
+\subsection{SD Speed}
+Standard deviation is a quantity expressing by how much the members of a group differ from the mean value for the group. In our case, it gives a numerical value indicating how much the speed fluctuates within a given trip or aggregated over all available data for that particular ship. As with mean speed, we will exclude the messages where the ship is moored or anchored with no speed, because this will skew our measurements. This feature will be able to tell us about the movement pattern of a ship. To give an example, a fishing vessel will sail with irregular speed as they trawl the different fish banks, compared to an oil tanker on an international voyage.
+
+$$
+	speed_{SD} = \sqrt{\dfrac{1}{N-1}\sum_{i=1}^N(m_i.speed - speed_{mean})^2 }
+$$
+
+
+\subsection{SD Rate of Turn}
+Complementary to the deviation in speed, is the deviation in Rate of Turn. The last comparison between a fishing vessel and an oil tanker applies to this feature aswell. Furthermore, it would be a fair assumption that ships traveling in narrow waters and in/out of ports will turn more frequently than ships out on the open sea.
+
+$$
+	rot_{SD} = \sqrt{\dfrac{1}{N-1}\sum_{i=1}^N(m_i.rot - rot_{mean})^2 }
+$$
+
+\subsection{SD Acceleration}
 %%-----------------------------------------
+The last standard deviation I have included is the standard deviation of acceleration, this gives a measure of how often the ship usually speeds up and slows down. Along with the previous examples, this could also be a good feature to detect movement patterns of ferries, as they move short distances with starting and stopping.
 
+$$
+	acceleration_{SD} = \sqrt{\dfrac{1}{N-1}\sum_{i=1}^N(m_i.rot - acceleration_{mean})^2 }
+$$
 
+\subsection{Ship Entropy}
+
+The idea for the Ship Entropy is to take a density map of a ship aggregated over a certain amount of time and see how much area the ship covers. This will provide a better understanding of the ship's usuall movement in the area, and the tendency to follow different patterns.
+
+Remains to actually be calculated.
 
 %%-----------------------------------------
 \section{Kinematic Ship features}
+
+Kinematic Ship features are features linked to individual AIS-messages, and are only dependent on their nearest neighbors, with regard to space and time. These features are derived purely based on kinematic equations and geometry, looking to find features that describes the actual mathematical curvilinear motion of the ships.
+
+
 \begin{info}{}
 \end{info}
 
 \subsection{Acceleration}
+
+In kinematics, acceleration is the rate of change of the velocity of an object with respect to time.  Acceleration, in our case, has to be derived, by observerving the difference in speed between subsequent AIS-messages. With the acceleration for subsequent messages in an AIS-track, we can catch trends of the ship speeding up or slowing down, enforcing the predictive power of the prediction model.
+
+By providing the model with the relationship between speed and time, it doesn't need to infer this property by itself. The acceleration between each AIS-message is calculated using the following kinematic equation:
+
+$$
+	m.\mathrm{acceleration} = \dfrac{m.speed - m.prior\_speed }{m.timestamp - m.prior\_timestamp}
+$$
+
+
 \subsection{Rate of Turn}
+
+Rate of Turn, ROT,  is another term for the rate of change in course heading. As learned in the exploratory data analysis, ROT is provided in the original AIS-messages, but is often missing. By calculating this feature, we again provide the future modelling algorithm with a better understanding of the kinematics.
+
+$$
+	m.\mathrm{rot} = \dfrac{m.course - m.prior\_course }{m.timestamp - m.prior\_timestamp}
+$$
+
 \subsection{Point to Line}
+
+The point to line feature is the euclidian distance between the point geometry of one message, and the line formed using the points from the prior and subsequent message. This will give a measure of how each message relates to its neighbours, with regards to their linearity in the projected plane. It could be a supporting feature to catch turns, outliers and other behaviour that is necessary for the model.
+
+\todo[inline]{define what the different parameters are}
+
+$$
+	m.\mathrm{point\_to\_line} =  \dfrac{\lvert (y_2-y_1)x_0-(x_2-x_1)y_0+x_2y_1-y_2x_1\lvert}{\sqrt{(y_2-y_1)^2+(x_2-x_1)^2}}
+$$
+
 \subsection{Bearing}
+Bearing angle is defined as an angle between the north-south line of earth, and the line between the given reference point and target. In our case, it defines the angle between two sequential AIS-messages, and true  north. This measurement slightly differs from the heading- and course-features that are readily available in the dataset. While those features uses the onboard gyroscope(?) at each message, we will use the the actual geometric points recorded in the AIS-messages. This feature could prove redundant to the already available features, but it will provide us with a reasonable sanity check for the existing features, and can be used to replace missing values.
+
+The bearing from point $m_1$ to $m_2$ can be calulated as
+$$
+	m_2.bearing = atan2(X, Y)
+$$
+Where $X$ and $Y$ are two quantities expressed as
+
+$$
+	X= \cos m_2.lat*\sin dL
+$$
+$$
+	Y=\cos m_1.lat*\sin m_2.lat-\sin m_2.lat*\cos m_2.lat*\cos dL
+$$
+
+where
+$$
+	dL = m_2.long - m_1.long
+$$
+
+
 \subsection{Straight Line Factor}
+The straight line factor is inspired by one of the attributes in the Vake Fuser. By looking at two sequential messages, we can calculate the longest theoretical distance between the points assuming the ship sailing straight forward. This can be done by looking at the speed and time between the messages. This theoretical distance is compared to the actual distance between the mesages, giving us a ratio.
+
+$$
+	m_2.s\_line\_factor = \dfrac{\dfrac{1}{2}*(m_2.speed + m_1.speed)*(m_2.timestamp-m_1.timestamp)}{distance(m_2, m_1)}
+$$
+
+
 \subsection{Finite Differences}
+A Newtonian polynomial is an interpolation polynomial for a given set of data points. One crucial step in this interpolating method is to compute finite differences between points. The finite differences in our case gives a measure of how much longitude changes with regards to latitude change. Because ships move in a curvilinear fashion, the finite differences could prove valuable to the algorithm.
+
+$$
+	m_2.fin\_diff = \dfrac{m_2.long- m_1.long}{m_2.lat-m_1.lat}
+$$
 
 %%-----------------------------------------
 \section{Spatial Awareness Features}
-\begin{info}{}
-\end{info}
+Up until this point, we have only looked into features regarding individual ships, and their respective AIS messages. Now, we will take closer look on AIS-data of all ships, as well as the inclusion of other datasets. All of this combined is to add a better spatial awareness of the governing factors at sea, the goal is to add more features that captures more behaviour, which will boost prediction. 
+
 \subsection{Distance to Shore}
+
 \subsection{Distance to Skjær and Grunne}
 \subsection{Depth}
 \subsection{Ship Density}
 \subsection{Shipping Lanes}
 \subsection{Ship in Port}
+
 \section{Temporal Awareness Features}
+
 \subsection{Degree of Light}
 \subsection{Tidal Level}
 \subsection{Weather Effect}
