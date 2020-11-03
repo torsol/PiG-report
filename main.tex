@@ -21,7 +21,7 @@
 %%=========================================
 %				PREAMBLE
 %%-----------------------------------------
-\subimport{Preamble/}{front.tex}
+\subimport{Forside/}{forside.tex}
 \pagenumbering{Roman}
 \setcounter{page}{0}
 % \subimport{Preamble/}{preface.tex} % Removed for Specialization Project
@@ -35,35 +35,18 @@
 %%=========================================
 %				CHAPTERS
 %%-----------------------------------------
-\subimport{Chapters/Introduction/}{introduction.tex}
-\subimport{Chapters/Theory/}{theory.tex}
-\subimport{Chapters/DataPreproccessing/}{data_preprocessing.tex}
-\subimport{Chapters/FeatureEngineering/}{FeatureEngineering.tex}
+\subimport{Chapters/Introduksjon/}{introduksjon.tex}
+\subimport{Chapters/Prosess/}{prosess.tex}
+\subimport{Chapters/Diskusjon/}{Diskusjon.tex}
 
-%-------Include chapters as required-------
 
-\ifdraft{
-	\subimport{Chapters/SampleChapter/}{sample_chapter.tex}
-}
-
-\subimport{Chapters/Results//}{chapter_template.tex}
-
-\subimport{Chapters/Conclusions/}{conclusions.tex}
+\subimport{Chapters/Konklusjon/}{konklusjon.tex}
 %%=========================================
 %				APPENDIX
 %%-----------------------------------------
 \appendix
 \subimport{Appendix/}{acronyms.tex}
-\subimport{Appendix/}{tools.tex}
 
-%%=========================================
-%				BIBLIOGRAPHY
-%%-----------------------------------------
-%\addcontentsline{toc}{chapter}{\bibname}
 \printbibliography
-\ifdraft{
-	\todo[inline]{Bibliography will not show in draft mode}
-}
-
 \end{document}
 
