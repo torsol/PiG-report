@@ -4,11 +4,16 @@ Introduksjonen gir først en grundig innføring i valgt oppgave og motivasjonen 
 \section{Bakgrunn for oppgave}
 I faget TBA4251 - Programmering i Geomatikk skal man velge og utføre en av tre programmeringsprosjekter i et ledet selvstudium. Det er prosjektet, samt den tilhørende rapporten som utgjør vurderingen i faget, til en verdi av 7.5 studiepoeng. Dette prosjektet ble utførst høsten 2020, som en del av studieløpet innenfor Ingeniørvitenskap \& IKT, med fordypning innenfor geomatikk. 
 
-Valget av prosjekt falt på GIS-oppgaven, til fordel for 3D-modellerings og Geodesi. GIS står for Geographic Information System, og oppgaven går ut på å lage et slikt system som har implementert grunnleggende GIS-funksjonalitet \cite{midtbøa}. Som en del av prosjektoppgaven min måtte jeg sette meg inn i nye romlige programmeringsbiblioteker for å manipulere posisjonsdata, så da falt det naturlig å velge en oppgave i programmering i geomatikk som også krevde implementering av geoprosesseringsverktøy. På den måten kunne jeg dra nytte av ny kunnskap innenfor begge emner, som styrket både prosjektoppgaven og denne GIS-oppgaven. 
+Valget av prosjekt falt på GIS-oppgaven, til fordel for 3D-modellering og Geodesi. GIS står for Geographic Information System, og oppgaven går ut på å lage et slikt system som har implementert grunnleggende GIS-funksjonalitet \cite{midtbøa}. Som en del av prosjektoppgaven min måtte jeg sette meg inn i nye romlige programmeringsbiblioteker for å manipulere posisjonsdata, så da falt det naturlig å velge en oppgave i programmering i geomatikk som også krevde implementering av slike geoprosesseringsverktøy. På den måten kunne jeg dra nytte av ny kunnskap innenfor begge emner, som styrket både prosjektoppgaven og denne GIS-oppgaven. 
 
 \section{Formål med applikasjonen}
 
-Formålene med applikasjonen er det som burde drive foksuet på utviklingen. I oppgaveinstruksen som er gitt til prosjektet \cite{midtbøa} fremkommer det flere praktiske gjøremål i tillegg til det overordnede målet om å "bruke kunnskap om datateknologi sammen med kunnskap om geografiske informasjonssystemer. Essensen av de praktiske gjøremålene er som følger: 
+Formålene med applikasjonen er det som driver fokuset på programvareutviklingen. I oppgaveinstruksen som er gitt til prosjektet \cite{midtbøa} fremkommer det flere praktiske gjøremål i tillegg til det overordnede målet om å 
+
+\begin{displayquote}
+    \textit{bruke kunnskap om datateknologi sammen med kunnskap om geografiske informasjonssystemer}
+    \end{displayquote}
+Essensen av de praktiske gjøremålene er som følger: 
 
 \begin{enumerate}
     \item applikasjonen må inneholde viktig GIS-funksjonalitet
@@ -17,14 +22,14 @@ Formålene med applikasjonen er det som burde drive foksuet på utviklingen. I o
     \item applikasjonen bør ha et veldesignet brukergrensesnitt
 \end{enumerate}
 
-Videre ble det spesifisert noen ekstra gjøremål i retningslinjene \cite{midtbø}. 
+Videre ble det spesifisert noen ekstra gjøremål i retningslinjene \cite{midtbø}, 
 
 \begin{enumerate}[resume]
     \item Programkode skal være godt dokumentert
     \item Er applikasjonen web-basert må den installeres på et permanent sted som ikke forsvinner med studentbruker
 \end{enumerate}
 
-Disse gjøremålene blir toneangivende for utviklingen, men jeg har også valgt å inkludere et par egendefinerte fokusområder. Dette er mest gjøremål for å maksimere brukervennligheten, og for å skille seg ut fra tidligere oppgaver. 
+Disse blir toneangivende for utviklingen, i tillegg til et par egendefinerte gjøremål. Dette er gjøremål for å maksimere brukervennligheten, og for å skille seg ut fra tidligere oppgaver på en unik måte. 
 \begin{enumerate}[resume]
     \item Applikasjonen bør utformes for å ha mest mulig interaksjon på selve kartet (ikke i sidemenyer)
     \item En brukerveiledning som er inkludert i selve applikasjonen
@@ -32,14 +37,44 @@ Disse gjøremålene blir toneangivende for utviklingen, men jeg har også valgt 
 \end{enumerate}
 
 \section{Bakgrunn for valg av løsningsarkitektur}
-Valg av løsningsarkitektur var i stor grad inspirert av to faktorer. Den første var erfaringen med tidligere prosjekter der det ble brukt webgrensesnitt for å visualisere og manipulere kart. Det finnes flere gode kart-biblioteker for web, i tillegg til mange etablerte rammeverk for å holde styr på tilstand, minne og visuell utforming. 
+Valg av løsningsarkitektur er inspirert av to faktorer. Den første er erfaringen med tidligere prosjekter der det ble brukt webgrensesnitt for å visualisere og manipulere kart. Det finnes flere gode kart-biblioteker for web, i tillegg til mange etablerte rammeverk for å holde styr på tilstand, minne og visuell utforming. 
 
-Den andre faktoren var ønsket om å bruke noe av den samme teknologien som var benyttet i prosjektoppgaven. Dette er python-baserte rammeverk som er egnet for store data og rask geoprosessering. For å best benytte seg av dette ble det tydelig at en frontend basert på javascriptbiblioteker med hovedoppgave 
+Den andre faktoren var ønsket om å bruke mye av den samme teknologien som også skulle benyttes i prosjektoppgaven. Dette er python-baserte rammeverk som er egnet for store data og rask geoprosessering. For å få det beste av to verdener der man kombinerer gode brukergrensesnitt-verktøy med kraftige geoprosesseringsverktøy var det tydelig at en server-klient-arkitektur kunne passe fint. 
+
+Klienten vil da ta seg av å visualisere kart, og tilgjengeliggjøre funksjonalitet, og basert på brukerinteraksjon vil klienten sende data til serveren som vil utføre en operasjon og returnere resultatet. Denne valgte løsningen vil også underbygge gjøremål nummer 9, ettersom en todelt løsning vil være med modulerbar enn en integrert løsning. 
+
+
 
 \section{Bakgrunn for valg av programmeringsspråk}
-For å kunne velge programmeringsspråk 
 
+Valg av programmeringsspråk er gjort basert på personlig kjennskap, dokumentasjon og samhandling mellom verktøyene. Det har vært en drivende faktor at prototyping skulle gå raskt, og at det skulle være mulig å søke etter hjelp hvis man sto fast. 
 
+\subsection{Klient}
 
+Klienten er webbasert og vil derfor bestå av flere javascriptrammeverk som har ansvaret for tilstandshåndtering, visualisering av kart og generell styling. Javascript er det mest utbredte programmeringsspråket for web, og har over 1 million biblioteker som tilbyr ulik funksjonalitet. 
 
-\cite{Johanessen}
+\subsubsection{React}
+
+Klienten (eller frontend) er det brukeren ser og interagerer med når hen åpner applikasjonen. Det er viktig at klienten er i stand til å visualisere data og gjøre enkle operasjoner som sletting, opplasting, navnendringer osv. Dette stiller krav til at klienten kan ha kontroll over sin egen tilstand. 
+
+Det mest utbredte javascript-rammeverket for nettsider er React, mye pågrunn av at det tilbyr god dokumentasjon, fleksibilitet og enkel implementering. Fordi det er så mye brukt finnes det mange ekstra ressurser tilgjengelig, som kan styre alt fra nettverkskall og filopplastinger til tilstandshåndtering og styling av brukergrensesnitt. Dette er ting som applikasjonen må ha som hadde tatt tid å utvikle fra bunnen av, derfor går vi for React\dots
+
+\subsubsection{Mapbox GL JS}
+
+Mapbox GL JS er et javascript-rammeverk som er bygget på toppen av Leaflet\cite{Leaflet}. Det er en mer moderne tilnærming til webkart, som bruker det relativt nye webGL-rammeverket for raskt å rendere høykvalitetsvektorkart. Mapbox tilbyr et enkelt grensesnitt for å endre styling og legge til/fjerne kartdata. Det er dette rammeverket som får ansvaret for selve interaksjonen og visningen av kartet, og blir implementert som en komponent i den større React-applikasjonen. 
+
+\subsubsection{Material UI}
+
+Material UI er et javascript-rammeverk som brukes for å bygge grensesnitt med et gjennomført og konsekvent layout. Rammeverket kommer med mange ferdiglagde komponenter som ikoner, knapper og bokser som lett kan importeres inn i React og brukes rett ut av boksen. Det er hensiktsmessig å inkludere et styling-rammeverk siden det vil være med på å skape et konsekvent og intuitivt brukergrensesnitt.  
+
+\subsection{Server}
+
+Serveren er bygget på flere python-rammeverk som står for behandlingen av forespørsler og geoprosessering av innkommende data. Python er et av de mest populære språkene innen databehandling, datanalyse og maskinlæring, og har mange biblioteker som muliggjør dette og mye annet.  
+
+\subsubsection{Flask}
+
+Flask er et mikro-webrammeverk for Python, som kan brukes til å lage webapplikasjoner av ulikt slag. For denne applikasjonen bruker vi Flask for å lage et REST-API som tar imot http-forespørsler, behandler dem og sender kartdata i form av features tilbake. Denne arkitekturen oppfører seg på mange måter som et WFS, (Web Feature Service)\cite{OGC}, selv om den ikke følger protokollen for dette. 
+
+\subsubsection{Geopandas}
+
+Biblioteket som faktisk utfører geoprosesseringsoperasjonene heter Geopandas. Pandas er et mye brukt databehandlingsverktøy for strukturert data, og geopandas har utvidet det biblioteket til å kunne prosessere romlig data i tillegg. Selve biblioteket er implementert i C++, så det tilbyr meget raske kjøretider, også på store datamengder. Dette gjør det til et foretrukket verktøy til fordel for javascriptrammeverk som Turf.  
