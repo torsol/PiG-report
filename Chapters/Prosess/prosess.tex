@@ -79,9 +79,32 @@ Etter at begge prosjektene var oppe og de ulike rammeverkene fungerte isolert, v
 
 Når hovedarkitekturen var på plass flyttet fokuset seg over til å implementere mer funksjonalitet og brukergrensesnitt. Funksjonalitet var drevet av de kartlagte funksjonene funnet tidligere i arbeidsprosessen, mens brukergrensesnittet ble laget inspirert av målene om at applikasjonen skulle være brukervennlig og at det skulle bestå av mest mulig interaksjon i kartet. 
 
-Videre ble det forberedt data og laget en brukerveiledning som kan finnes både inne i klienten, men også i denne rapporten i appendiks \ref{sec:brukerveiledning}. Helt tilslutt gjenstod det å oppsummere arbeidet i denne rapportne og lansere den endelige versjonen. 
+Videre ble det forberedt data og laget en brukerveiledning som kan finnes både inne i klienten, men også i denne rapporten i appendiks \ref{sec:brukerveiledning}. Helt tilslutt gjenstod det å oppsummere arbeidet i denne rapporten og lansere den endelige versjonen. 
 
 \section{Detaljert arkitektur}
+
+Klienten er bygget på React, og følger konvensjonene for bruk av komponenter og State-behandling. En komponent i React kan enten være en klasse, eller en funksjon, skrevet i javascript. Deres oppgave er å returnere HTML som vises i nettleseren når man besøker nettsiden. Det som avgjør hvilken HTML som returneres er komponentenes interne State (eller tilstand). Komponenter kan sende informasjon til hverandre og returnere andre komponenter, og det er en konvensjon at informasjon kun skal flyte fra foreldre-komponenten til barn-komponenten og ikke motsatt. En total nettside består gjerne av flere komponenter, der hver komponent har et ansvarsområde.
+
+i figur \ref{fig:react-arkitektur} kan man se den totale komponent-strukturen til klienten. Rot-komponenten App består av komponentene Sidebar, Map og Tutorial. I tillegg har App ansvaret for State til alle kartlagene som legges til. Sidebar-komponenten har hovedansvaret for å vise sidebaren, og består av komponentene Dropzone, Operation og Layerbar. Dropzone er komponenten som behandler filopplastinger. Layerbar er den delen av sidebaren som viser kartlagene som er lagt til. Operation-komponenten er koblet til APIConnection, som har ansvaret for å kjøre HTTP-forespørsler til Serveren, der den faktiske geoprosesseringen i applikasjonen finner sted. Map-komponenten består av et Mapbox GL JS-map som viser kartlag. Tutorial-komponenten er en egen komponent som har ansvaret for å vise instruksjoner. 
+
+Komponentene Dropzone, Operation, LayerBar og Map kan alle (på ulikt vis) manipulere datalagene i kartet, men de oppdaterer ikke sin egen tilstand. Flyten er at de oppdaterer tilstanden til App, også flyter endringen neddover komponent-treet til alle de komponentene som er avhengig av endringen. På denne måten finnes det kun en kilde til sannhet i applikasjonen, man unngår problemet med lokale endringer i en komponent som ikke plukkes opp av en annen komponent.  
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{react-arkitektur.PNG}
+    \caption{Komponent-diagrammet som viser arv i React-Klienten.}
+    \label{fig:react-arkitektur}
+\end{figure}
+
+
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{api-arkitektur.PNG}
+    \caption{Komponent-diagrammet som viser arv i Python-API'et.}
+    \label{fig:firstping}
+\end{figure}
+
 
 - Design principles
 
