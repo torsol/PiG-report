@@ -1,6 +1,6 @@
 \chapter{Applikasjon}
 
-Dette kapittelet tar for seg arbeidsgangen i prosjektet, en detaljert arkitekturskisse, og en gjennomgang av all funksjonalitet knyttet til geoprosessering, filbehandling, grensesnitt og brukerveiledning.
+Dette kapittelet tar for seg arbeidsgangen i prosjektet, en detaljert arkitekturskisse, og en gjennomgang av all funksjonalitet knyttet til geoprosessering, filbehandling, grensesnitt og brukerveiledning. I tillegg skal det bli snakket om kode-dokumentasjon og hosting av tjenestene på github pages og herokuapp. 
 
 \section{Arbeidsgang}
 
@@ -79,7 +79,14 @@ Etter at begge prosjektene var oppe og de ulike rammeverkene fungerte isolert, v
 
 Når hovedarkitekturen var på plass flyttet fokuset seg over til å implementere mer funksjonalitet og brukergrensesnitt. Funksjonalitet var drevet av de kartlagte funksjonene funnet tidligere i arbeidsprosessen, mens brukergrensesnittet ble laget inspirert av målene om at applikasjonen skulle være brukervennlig og at det skulle bestå av mest mulig interaksjon i kartet.
 
-Videre ble det forberedt data og laget en brukerveiledning som kan finnes både inne i klienten, men også i denne rapporten i appendiks \ref{sec:brukerveiledning}. Helt tilslutt gjenstod det å oppsummere arbeidet i denne rapporten og lansere den endelige versjonen.
+Videre ble det forberedt data og laget en brukerveiledning som kan finnes både inne i klienten, men også i denne rapporten i appendiks \ref{sec:brukerveiledning}. Helt tilslutt gjenstod det å oppsummere arbeidet i denne rapporten og lansere den endelige versjonen som kan sees i figur \ref{fig:final-version}.
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.23]{final_version.png}
+    \caption{Endelig versjon av prosjektet}
+    \label{fig:final-version}
+\end{figure}
 
 \section{Detaljert arkitektur}
 
@@ -127,27 +134,94 @@ Figur \ref{fig:forespørsel} viser flyten når man skal beregne buffer på et ka
     \label{fig:forespørsel}
 \end{figure}
 
-\section{Funksjonalitet}
+\section{Brukergrensesnitt og brukervennlighet}
 
+Brukergrensesnitt og brukervennlighet går ofte hånd i hånd, ettersom et intuitivt brukergrensesnitt øker brukervennligheten. Gjøremålene i introduksjonen har vært drivende for utformingen av grensesnittet, og i denne underseksjonen skal vi ta for oss de ulike elementene. 
 
+I hovedsak er det kun tre elementer på nettsiden, nemlig sidemeny, kart og tutorial. Alle disse elementene er stylet utifra samme css-stylesheet for å ha samme utforming, se figur \ref{fig:elementer}. Det gjelder fargebruk, skriftstørrelse/skrifttype, avrundede kanter, samme type symboler (hentet fra Material UI). Både sidemenyen og tutorialen har samme skyggelegging og samme avstand over kartet. Dette er hensyn som bevisst er tatt for å skape en helhetsfølelse i applikasjonen. Dette gjør at brukeren enklere kan bruke intuisjon for å ta i bruk de ulike elementene i kartet, ettersom de ser og oppfører seg ganske likt, så har de også en ganske lik måte å fungere på.
 
-\subsection{Brukergrensesnitt}
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{.33\textwidth}
+		\centering
+		\includegraphics[scale=0.4]{kontrollpanel.png}
+		\caption{Kontrollpanel/Sidemeny}
+		\label{fig:sub1}
+	\end{subfigure}%
+	\begin{subfigure}{.33\textwidth}
+		\centering
+		\includegraphics[scale=0.4]{tutorial.png}
+		\caption{Tutorial/Brukerveiledning}
+		\label{fig:sub2}
+    \end{subfigure}
+    \begin{subfigure}{.33\textwidth}
+		\centering
+		\includegraphics[scale=0.4]{kart.png}
+		\caption{Mapbox kart}
+		\label{fig:sub2}
+	\end{subfigure}
+	\caption{\small{De tre hovedelementene som utgjør Klient-applikasjonen.}}
+	\label{fig:elementer}
+\end{figure}
 
-- Tilbakemelding på feil eller suksess
+Brukergrensesnittet består kun av de tre elementene i figur \ref{fig:elementer}, der tutorialen også kan minimeres slik at det kun er to elementer. Det ble gjort et bevisst valg om å holde antall menyer og bokser som var på skjermen nede fordi dette tok oppmerksomheten fra selve kartet. Dette er også et av de egendefinerte gjøremålene, å maksimere kartinteraksjonen, og minimere sidemenybruken. Derfor er det også sånn at det ikke kommer noen store modaler eller pop-up-bokser når man skal bruke de ulike operasjonene. Dette designvalget ga noen utfordringer, ettersom det må være muligheter for både å velge hvilke kartlag man vil ha som input til operasjoner (se seksjon \ref{sec:lagbehandling}), og andre input som foreksempel buffer-størrelse (se seksjon \ref{sec:geoprosessering}). Resultatet har blitt et ryddig, enkelt og forståelig grensesnitt som fortsatt klarer å gi brukeren full kontroll, uten å ta i bruk store og forstyrrende pop-up-bokser, drop-down-menyer og unødig klikking som føles tungvindt og gammeldags ut.
 
-- Design
+En viktig del av et godt brukergrensesnitt er feedback på handlinger, for å få en forståelse om det man prøvde å gjøre fungerte eller ikke. Alt som kan klikkes eller dras på i applikasjonen har en visuell indikasjon på at man kan gjøre det, enten ved at musepekeren forandrer seg, eller at elementet man holder over endrer farge. I tillegg dukker det opp notifikasjoner nede i venstre hjørne som indikerer om større operasjoner fungerte eller ikke, se figur \ref{fig:success}. Disse meldingene kommer når man har utført HTTP-kall(operasjoner) til Flask-Serveren, eller gjort filopplastinger.  
 
-- Minst mulig sidemenyer
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{success.PNG}
+    \includegraphics[scale=0.5]{error.PNG}
+    \caption{Notifikasjon som indikerer at operasjonen var vellykket eller ikke}
+    \label{fig:success}
+\end{figure}
 
-- Kartdesign
+For å gjøre kartdesignet i tråd med sidemenyen og tutorialen ble Mapbox Studio tatt i bruk. Mapbox Studio er et nettleser-verktøy laget av Mapbox der man kan endre på grunnkartet som brukes i kart-komponenten. Her kan også brukere laste opp sine egne designs, ta ibruk og endre andre designs. Kartet som er brukt i denne applikasjonen har tatt utgangspunkt i kartet Le Shine av Nathaniel Slaughter \cite{Slaughter}, med noen personlige modifikasjoner til bygningssynlighet på ulike zoom-nivåer for å få det mer i tråd med Mapbox sitt standardkart. Se figur \ref{fig:mapbox-studio}.
 
-\subsection{Geoprosessering}
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.3]{mapbox-studio.png}
+    \caption{Screen-capture av mapbox studio med Le Shine-kartet. I sidemenyen kan man se alle kartlagene som utgjør dette custom-kartet}
+    \label{fig:mapbox-studio}
+\end{figure}
 
-\subsection{Lagbehandling}
+Det siste elementet som skal snakkes om i denne seksjonen er tooltipene til hver operasjon i sidemenyen/kontrollpanelet. I tillegg til brukerveiledningen skal disse tooltipene suplementere brukervennlighet med en enkel forklaring på hva operasjonen gjør og hvor mange lag den trenger for å kunne velges. Ved å ha en lett tilgjengelig tooltip slipper brukeren å bla gjennom brukerveiledningen på nytt hvis hen blir usikker på hva operasjonen faktisk gjore. Informasjonen dukker opp hvis man trykker på spørsmålstegnet knyttet til hver operasjon, som vist i figur \ref{fig:tooltip}. 
 
-\subsection{Brukerveiledning}
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{tooltip-polygon.png}
+    \caption{Ved å klikke på spørsmålstegnene får man en kjapp presentasjon av hva operasjonen gjør, uten å gå gjennom tutorialen på nytt}
+    \label{fig:tooltip}
+\end{figure}
 
-\subsection{Dokumentasjon}
+\section{Lagbehandling}
+\label{sec:lagbehandling}
+
+- Seleksjon av kartlag
+
+- Forandre navn
+
+- forandre synlighet
+
+- Legge til lag
+
+- Fjerne lag
+
+\section{Geoprosessering}
+\label{sec:geoprosessering}
+
+\subsubsection{Draw Polygon}
+\subsubsection{Buffer}
+\subsubsection{Union}
+\subsubsection{Dissolve}
+\subsubsection{Split}
+\subsubsection{Intersection}
+\subsubsection{Bounding Box}
+\subsubsection{Symmetric Difference}
+
+\section{Tutorial}
+
+\section{Dokumentasjon}
 
 \section{Hosting}
 \label{sec:hosting}
