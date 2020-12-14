@@ -46,6 +46,7 @@ Mens typiske lagbehandlingsfunksjoner var:
             \item Vise/skjule lag
             \item Zoome til lag
             \item Laste ned lag
+            \item Fjerne lag
         \end{itemize}
     \end{tabular}
 
@@ -196,21 +197,47 @@ Det siste elementet som skal snakkes om i denne seksjonen er tooltipene til hver
 
 \section{Lagbehandling}
 \label{sec:lagbehandling}
+Denne seksjonen tar for seg de ulike måtene kartlagene kan manipuleres på. Av lagbehandlingsfunksjonene som ble kartlagt i starten av arbeidet ble det valgt å implementere seleksjon, forandring av navn/synlighet, samt opplasting og fjerning av lag. 
 
-- Seleksjon av kartlag
+\subsubsection{Legge til lag}
 
-- Forandre navn
+Det som ligger i bunn for å legge til lag er å oppdatere App-staten med ny kartdata. Det skjer i funksjonen addLayersToState, denne funksjonen er definert i App, og sendes til alle komponentene som trenger å legge til ny kartdata i applikasjonen. For hver nye geojson-data lages det en unik id og navn til hvert lag, samt en tilfeldig farge som skal brukes i stylingen av laget. Her er det også en sjekk på om det faktisk er minst en feature i laget som legges til, ettersom noen operasjoner kan produsere tomme features. 
 
-- forandre synlighet
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{addlayers.png}
+    \caption{Funksjonen som legger til nye lag i State}
+    \label{fig:addLayers}
+\end{figure}
 
-- Legge til lag
+Det er to måter å legge til nye, egne lag i applikasjonen. Den første metoden, filopplasting, er implementert ved bruk av React-biblioteket Dropzone. Dette er en komponent som kan ta imot filer, enten ved at man drar dem inn i komponenten, eller klikker på den for å få opp en filutforsker. Etter at en fil er godtatt av komponenten sendes innholdet til en 'useCallback'-funksjon(se figur \ref{fig:usecallback}) hvor man må definere hva som skal skje videre. Siden FileReader-funksjonen er asynkron må man først lage en liste av av promises, der hvert promise er avlesningen av hvert lag som er lagt til. Når alle filene har blitt lest inn blir Promise.all() trigget, som legger til filene i staten ved bruk av funksjon \ref{fig:addLayers}.
 
-- Fjerne lag
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{usecallback.png}
+    \caption{useCallBack-funksjonen som kjøres når filene i dropzone har blitt godkjent.}
+    \label{fig:usecallback}
+\end{figure}
+
+Den andre metoden for å lage helt nye lag er en av operasjonene i sidemenyen, nemlig 'Draw Polygon'. Draw-funksjonaliteten er en tilleggsmodul til Mapbox GL, som eksplisitt er implementert i denne applikasjonen. Draw-funksjonen er instansiert i App, og sendt videre til både kart-komponenten og sidebaren. Etter man har streket opp et polygon med tegneverktøyet til Draw (Som aktiveres når man trykker på draw polygon), sendes dataen til en lignende useCallBack, som igjen legger laget til ved bruk av funksjon \ref{fig:addLayers}.
+
+\subsubsection{Fjerne lag}
+
+Det å fjerne lag kan gjøres to steder, enten ved å trykke på remove all layers i sidemenyen, eller å fjerne individuelle lag ved å trykke på søppelkasse-ikonet i layers-oversikten (se figur \ref{fig:layerbar}).  
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{layers.png}
+    \caption{Layerbar-komponenten som er en del av sidemenyen}
+    \label{fig:layerbar}
+\end{figure}
+
+\subsubsection{Seleksjon av kartlag}
+
+\subsubsection{Forandre navn og synlighet}
 
 \section{Geoprosessering}
 \label{sec:geoprosessering}
-
-\subsubsection{Draw Polygon}
 \subsubsection{Buffer}
 \subsubsection{Union}
 \subsubsection{Dissolve}
@@ -221,7 +248,24 @@ Det siste elementet som skal snakkes om i denne seksjonen er tooltipene til hver
 
 \section{Tutorial}
 
+- Komponent
+
+-- Bilde
+
+-- Piler
+
+-- Tekst
+
 \section{Dokumentasjon}
+
+For å 
+
+- Doc-strings
 
 \section{Hosting}
 \label{sec:hosting}
+Som tidligere nevnt er Klient-delen av applikasjonen hostet via github pages. Github pages er en tjeneste knyttet til kildekode publisert på github, som bygger og deployer prosjekter, samt tilgjengeligjører dem på internett. Vanligvis er nettadressen til prosjektene knyttet til github-brukeren til den som eier prosjektet (i mitt tilfelle torsol.github.io/<prosjektnavn>), men ikke her, fordi jeg bruker et eget domene. React har et eget bibliotek som integerer prosjekter med github pages, så det eneste som trengs for å rulle ut en ny versjon av applikasjonen er å kjøre et script i kommandolinjen. 
+
+Server-delen av applikasjonen kan ikke hostes på github pages, dette er fordi github pages kun fungerer for statiske nettsider i html, css og javascript. Derfor tok man i bruk heroku istedenfor. Ved å integrere heroku med github-kontoen ble det laget en pipeline som bygger og deployer en ny versjon av serveren for hver gang master-branchen oppdateres. 
+
+Ved å ta ibruk både github pages og heroku oppnådde man gjøremålet om at programmet ikke forsvinner med studentbruker. I tillegg tilbyr begge løsningene rask prototyping, med lynrask respons fra endring til det er live på nettet. 
