@@ -1,25 +1,56 @@
 \chapter{Diskusjon, Konklusjon og Fremtidig Arbeid}
 
+I denne seksjonen skal det diskuteres litt om valgt brukergrensesnitt, problemer som oppsto underveis og mangler og eventuelle feil. Videre kommer en konklusjon til prosjektet før alt rundes av med forslag til fremtidig arbeid. 
+
 \section{Diskusjon}
 
-\subsection{Valgt brukergrensesnitt}
+\subsubsection{Valgt brukergrensesnitt}
 
-\subsection{Problemer som oppsto underveis}
+Brukergrensesnittet har blitt laget for å være intuitivt, responsivt og smart med tanke på å maksimere kartinteraksjonen. Med felles styling, gjennomført ikonbruk, og implementering av responsive prinsipper føles det ut som at man har klart å oppnå dette i stor grad.
 
-- Flerlagsoperasjoner skapte Problemer
+En enklere implementasjon av operasjoner der man kunne valgt input og rekkefølge på lag ved hjelp av dropdown-menyer hadde tatt bort noe av tiden som gikk med på å lage kreative løsninger, men dette var arbeid vi tidlig definerte som viktig for å gi applikasjonen et særpreg og utfordre 'standard-løsningen'. Mer arbeid kan med fordel legges inn i operasjonene som krever mer interaksjon etter at man har valgt dem (typ buffer som krever at man skriver inn hvor stort bufferet skal være). 
 
-- Server hostet på heroku sovnet
+Bruken av Material-UI-komponenter er noe uregelmessig som fører til enkelte uregelmessigheter, så enkelte elementer i sidemenyen burde skrives om for å få en helt gjennomført og konsistent bruk. Dette har i stor grad med implementasjon og gjøre, og ikke det som faktisk vises. 
 
-- Overflow i layer-names
+\subsubsection{Problemer som oppsto underveis}
 
-\subsection{Mangler og eventuelle feil}
+Generelt har det ikke vært så mange problemer som oppsto underveis, det skyldes nok en god porsjon flaks, kjennskap til verktøyene fra før og en god plan på hvordan det skulle implementeres. Likevel trekkes det fram to utfordringer som måtte tas hensyn til: 
 
-\subsection{Løser applikasjonen oppgaven?}
+Det største problemet som oppsto underveis var hvordan å løse seleksjon av lag. Operasjonene har ulike krav til hvor mange lag som må velges for å kunne brukes, og operasjonene oppførte seg uregelmessig hvis den mengden ikke ble overholdt. Ved å definere hvor mange lag man måtte velge for å kunne bruke operasjoner programmatisk løste dette seg, hvis seleksjon av lag ikke matchet input til operasjonen blir den grået ut og ikke tilgjengelig. Dette med valg av input og kompatibilitet med operasjoner har vært noe av det mest spennende å jobbe med i dette prosjektet, siden det er en ny tilnærming til GIS jeg ikke har sett andre steder. 
+
+Et annet problem som dukket opp var at heroku (der vi hoster Flask-Serveren) hadde en tendens til å putte serveren i 'dvalemodus' når den ikke brukes på lengre tid. Derfor tar det første HTTP-kallet usannsynlig lang tid å gjennomføre siden serveren først må vekkes opp før den kan svare. Dette ble løst på en ganske simpel måte ved at klienten kjører en ping-forespørsel rett etter at siden er lastet, i håp om at man vekker opp serveren i tide til å gjøre de andre operasjonene raskere.
+
+Dette er ikke en robust måte å gjøre det på, siden det ikke tar høyde for at serveren kan sovne igjen hvis man ikke har brukt klienten på en stund. Når man tar den i bruk igjen vil det ta tid å vekkes på nytt. 
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{backend-connect.png}
+    \caption{Denne meldingen dukker opp etter å ha startet klienten når man har fått kontakt med serveren}
+    \label{fig:doc2}
+\end{figure}
+
+\subsubsection{Mangler og eventuelle feil}
+
+Den første mangelen jeg kan se for meg er at det er dårlig feedback hvis noe går galt eller ikke fungerer i kommunikasjonen til serveren. Det ble ikke nok tid til å implementere skreddersydde feilmeldinger når HTTP-kall gikk galt, man får bare en generell HTTP-500 error. Det som er fint er at de fleste feil som oppstår på server-siden ikke vil kræsje hverken serveren eller klienten, siden man har valgt å dele opp applikasjonen i to. 
+
+En annen mangel er operasjoner som er avhengig av rekkefølge på lag. Operasjonen Clip, der man kutter et lag basert på masken til et annet lag er et ganske standard verktøy som hadde vært kjekt å ha med. Da må man utvide Operation-komponenten til å ta høyde for rekkefølge, og kanskje presentere brukeren med en ny meny (på samme måte som buffer) der man kan velge hvilke lag som skal klippes i forhold til det andre laget. Det er ingenting i koden som hindrer denne typen implementering, men det ble ikke tid til å gjøre det i denne omgangen. 
 
 \section{Konklusjon}
 
+For å konkludere oppfyller applikasjonen gjøremålene definert i introduksjonen. Applikasjonen inneholder flere metoder for å manipulere lag, i tillegg til 6 geoprosesseringsverktøy, noe man kan definere som viktig GIS-funksjonalitet. Videre klarer applikasjonen å behandle relativt store datamengder i analyse takket være det kraftige Geopandas-verktøyet på Serversiden. 
+
+Applikasjonen har tooltips til hver operasjon og en grundig veiledning enkelt tilgjengelig. Selve applikasjonen er også veldig vanskelig å kræsje fullstendig, takket være Server-Klient-arkitekturen som isolerer feil. Sammen med et konsistent og intuitivt brukergrensesnitt kan man påstå at applikasjonen oppnår målene om både brukervennlighet og veldesignet brukergrensesnitt. 
+
+Videre er koden godt dokumentert der man følger et definert regime for føring av DOC-strings, samt at både server og klient ligger fritt tilgjengelig via github pages og heroku. Med all denne funksjonaliteten har applikasjonen oppnåd de gjøremålene definert i introduksjonen og man kan konkludere med at applikasjonen oppfyller målsettingen. 
+
 \section{Fremtidig arbeid}
 
-- Punkt og Linje
+Her kommer noen konkrete forslag til hvordan man kan videreutvikle applikasjonen. 
 
-- Operasjoner med rekkefølge
+\subsubsection{Punkt og Linje}
+
+Til nå har applikasjonen kun blitt implementert og testet med tanke på polygoner. Det er ingenting som hindrer videre utvikling av punkt og linje, som kan gi en større fleksibilitet til applikasjonen. 
+
+\subsubsection{Operasjoner med rekkefølge}
+
+Som tidligere diskutert kan man med fordel utvide Operation-komponentene til å ta høyde for rekkefølge på selekterte lag, slik at man kan implementere ny funksjonalitet som Clip. 

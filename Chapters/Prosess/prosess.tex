@@ -223,7 +223,7 @@ Den andre metoden for å lage helt nye lag er en av operasjonene i sidemenyen, n
 
 \subsubsection{Fjerne lag}
 
-Det å fjerne lag kan gjøres to steder, enten ved å trykke på remove all layers i sidemenyen, eller å fjerne individuelle lag ved å trykke på søppelkasse-ikonet i layers-oversikten (se figur \ref{fig:layerbar}).  
+Det å fjerne lag kan gjøres to steder, enten ved å trykke på remove all layers i sidemenyen, eller å fjerne individuelle lag ved å trykke på søppelkasse-ikonet i layers-oversikten (se figur \ref{fig:layerbar}). På samme måte som funksjon \ref{fig:addLayers} legger til lag, fjerner funksjon \ref{fig:remove} enten alle layers, eller det layeret som matcher id'en til det søppelkasseikonet man trykket på. 
 
 \begin{figure}[h]
     \center
@@ -232,35 +232,107 @@ Det å fjerne lag kan gjøres to steder, enten ved å trykke på remove all laye
     \label{fig:layerbar}
 \end{figure}
 
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{remove-layers.png}
+    \caption{Layerbar-komponenten som er en del av sidemenyen}
+    \label{fig:remove}
+\end{figure}
+
 \subsubsection{Seleksjon av kartlag}
+
+Siden denne applikasjonen ikke har ekstra vinduer med rullegardin-menyer som dukker opp når man trykker på operasjoner må seleksjonen av kartlag løses på en annen måte. Enten kan man klikke på selve laget i layers-oversikten (se figur \ref{fig:selected}), eller så kan man trykke DIREKTE på kartlaget på selve kartet.
+
+Når ett eller flere kartlag er valgt lyser de ulike operasjonene opp utifra om det er mulig å benytte seg av operasjonen eller ikke. Som et eksempel vil 'intersection' ført bli mulig å klikke på hvis man har selektert nøyaktig to kartlag. Hvor mange lag man må velge for å kunne bruke en operasjon står i tooltipen til hver operasjon.  
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{selected-layers.png}
+    \caption{Layerbar-komponenten med selektert layer markert i mørkere farger}
+    \label{fig:selected}
+\end{figure}
 
 \subsubsection{Forandre navn og synlighet}
 
+Hvis man ser på figur \ref{fig:layerbar}, ser man både et øye-ikon og et blyant-ikon. Dette er knapper man kan trykke på for enten å endre synligheten til et lag eller endre navnet til et lag. Begge funksjoner benytter seg av metoden HandleMetaChange, som tar inn et key-value-par av verdier den skal endre for et gitt lag. Når synligheten til kartet blir forandret har Map-komponenten en useEffect (funksjon som reagerer på forandring) som plukker opp hvilke lag i Staten som har blitt satt til å være usynlige, og gjør dem det. 
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{handlemetachange.png}
+    \caption{HandleMetaChange tar inn key-value-par av attributter som skal forandres for en gitt layerID}
+    \label{fig:selected}
+\end{figure}
+
 \section{Geoprosessering}
 \label{sec:geoprosessering}
+
+Geoprosesseringsverktøyene er i stor grad inspirert av operasjonene som ble funnet tidlig i arbeidsprosessen. Med måten seleksjon er implementert på finnes det ikke noen relativ ordning på input til operasjonene, derfor er det kun implementert operasjoner som er invariant til rekkefølgen på input. 
+
+Alle operasjonene benytter seg av en funksjon i APIConnection.js som kommuniserer med Flask-serveren. GetOperationFunction (se funksjon \ref{fig:operation}) brukes til å generere  en spesifikk operation-funksjon for hver av de ulike operasjonene. Hver av disse funksjonene bruker HTTP-kall-verktøyet axios til å sende POST-forespørseler med kartdataen som er selektert i klienten. Responsen legges til i State ved bruk av addLayersToState.    
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{operation-function.png}
+    \caption{Funksjon som genererer spesifikke operasjonsfunksjoner som brukes til å kommunisere med Server}
+    \label{fig:operation}
+\end{figure}
+
 \subsubsection{Buffer}
+
+Buffer er en av de vanskeligere tingene å beregne, siden standardprojeksjonen til Mapbox er WGS84. Man er ofte vandt med å ha buffer målt i meter, og da må man reprojesere kartlaget før man beregner buffer med verdien som sendes ved. Heldigvis has Geopandas en '.to\_crs()'-funksjon som enkelt konverterer mellom de ulike projeksjonene. Buffer-funksjonen i klienten kan ta inn en vilkårlig mengde layers av gangen, ettersom man kan strukturere lagene inn ihver sin rad i en 'GeoDataFrame' ved bruk av Geopandas. Her ser man noe av kraften man får ved å bruke et kraftig romlig bibliotek som kan regne på store datamengder, til fordel for Turf. 
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{buffer.png}
+    \caption{Bufferfunksjonen som brukes på kartlaget som POSTes til '/api/buffer'}
+    \label{fig:operation}
+\end{figure}
+
 \subsubsection{Union}
+
+Union er også en funksjon som kan ta inn en vilkårlig mengde lag, så lenge det er flere enn to. Funksjonen slår sammen alle overlappende features, og returnerer alle features som et lag tilbake til klienten.  
+
 \subsubsection{Dissolve}
+
+Dissolve tar kun et lag som input, og slår alle features i laget sammen til ett multi-feature. Dette kan være en nyttig funksjon hvis man vil ta buffer av et lag og ikke vil ha overlappende bufferområder fra de individuelle featurene i laget, som et eksempel. 
+
 \subsubsection{Split}
+
+Split er den eneste operasjonen som ikke benytter seg av serveren. Det Split gjør er å returnere hver feature i de valgte lagene som sitt eget lag. Dette er den eneste av funksjonene som potensielt har fler enn ett lag som output. 
+
 \subsubsection{Intersection}
+
+Intersection returnerer de overlappende områdene for to lag. Man kan kun bruke intersection hvis man har valgt nøyaktig to lag. 
+
 \subsubsection{Bounding Box}
+
+Bounding box returnerer den minste omskrivende firkanten (med akser langs WGS84) til alle features i valgte lag. Skal man ha bounding box av et helt lag må man først kombinere laget til en feature ved hjelp av dissolve.  
+
 \subsubsection{Symmetric Difference}
+
+Symmetric difference tar inn to lag og returnerer laget som består av områdene som ikke overlapper med hverandre. Det kan sees på som et inverse union. 
 
 \section{Tutorial}
 
-- Komponent
-
--- Bilde
-
--- Piler
-
--- Tekst
+Tutorialen er en av de tre hovedkomponentene i applikasjonen. Som et ekstra steg i brukervennlighet føltes det naturlig å inkludere tutorialen i selve applikasjonen. Den er bygget av hovedsaklig Material-UI-komponenter, og instruerer brukeren til de ulike elementene i applikasjonen gjennom tekst og bilder. Man kan navigere seg frem og tilbake ved bruk av pil-knappene, som bytter hvilken adresse applikasjonen ser etter bilde og tekst.  
 
 \section{Dokumentasjon}
 
-For å 
+Et av kravene til prosjektet har vært å sikre god dokumentasjon av kildekoden. I tillegg til å skrive documentation-strings til viktige funksjoner har strategien vært å kommentere linjer der det man gjør ikke er selvdokumenterende. På den måten sikrer man at koden er godt dokumentert på en strukturert måte, på samme tid som at man sparer seg for unødig kommentering som bare gjør koden vanskeligere å lese. Får å se hvordan en documentation-string ser ut i javascript og python henvises man til figur \ref{fig:doc1} og figur \ref{fig:doc2}. 
 
-- Doc-strings
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{docstring1.png}
+    \caption{Documentation Strings i javascript}
+    \label{fig:doc1}
+\end{figure}
+
+\begin{figure}[h]
+    \center
+    \includegraphics[scale=0.5]{docstring2.png}
+    \caption{Documentation Strings i python}
+    \label{fig:doc2}
+\end{figure}
 
 \section{Hosting}
 \label{sec:hosting}
